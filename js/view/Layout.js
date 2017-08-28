@@ -53,7 +53,7 @@ module.exports = {
             <div>
                 { children }
             </div>,
-            <Menu open={ state.menuOpen } />,
+            //<Menu open={ state.menuOpen } />,
             <MenuButton onclick={ toggleMenu } />
         ]
         
