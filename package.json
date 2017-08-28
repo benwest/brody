@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "main": "js/server.js",
-  "repository": "https://github.com/benwest/brody-dev.git",
+  "repository": "https://github.com/benwest/brody.git",
   "author": "BONG <work@bong.international>",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
