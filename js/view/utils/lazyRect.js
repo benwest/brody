@@ -66,7 +66,7 @@ var check = throttle( () => {
     
     if ( changed ) redraw( false, 'lazyboy' );
     
-}, 1000 )
+}, 250 )
 
 window.addEventListener( 'resize', check );
 window.addEventListener( 'scroll', check );
