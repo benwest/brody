@@ -31,7 +31,7 @@
     "webpack": "^3.4.1"
   },
   "scripts": {
-    "dev": "webpack --env.dev true --watch & npm start",
+    "dev": "webpack --env.dev true --watch & node js/server",
     "start": "npm run build && pm2 startOrRestart pm2.json",
     "build": "webpack --env.production true"
   }

@@ -1,7 +1,7 @@
 var m = require('mithril');
 
 var Background = require('./Background');
-var Block = require('./Block');
+var Module = require('./Module');
 
 var group = blocks => blocks.reduce( ( backgrounds, block ) => {
     
@@ -30,7 +30,7 @@ module.exports = {
         state.backgrounds = group( blocks );
         
         state.style = {
-            color: meta.color
+            color: meta.textColor
         };
         
     },
@@ -41,7 +41,7 @@ module.exports = {
             
             var blocks = background.blocks.map( ( block, i ) => {
                 
-                return <Block key={ i } { ...block }/>;
+                return <Module key={ i } { ...block }/>;
                 
             })
             

@@ -1,7 +1,7 @@
 var m = require('mithril');
 var Page = require('./view/Page');
 var Layout = require('./view/Layout');
-var Blocks = require('./view/blocks/Blocks')
+var Modules = require('./view/modules/Modules');
 var api = require('./api');
 
 var resolver = {
@@ -11,7 +11,7 @@ var resolver = {
         return api( path )
             .then( data => {
                 
-                return { meta: data.meta, view: () => ( <Blocks { ...data }/> ) }
+                return { meta: data.meta, view: () => ( <Modules { ...data }/> ) }
                 
             });
         

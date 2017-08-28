@@ -43,7 +43,7 @@ module.exports = {
         
         font: "inherit",
         
-        color: "#000"
+        textColor: "#000"
         
     },
     
