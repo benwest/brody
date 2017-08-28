@@ -1,0 +1,35 @@
+{
+    
+    "meta": {
+        
+        "title": "Brody Associates"
+        
+    },
+    
+    "blocks": [{
+        
+        "type": "frame",
+        
+        "attrs": {
+            
+            "title": [ "span", {}, [
+                "Brody", [ "span", { "style": { "color": "#9C9B9B" } }, [ "Associates" ] ]
+            ] ],
+            
+            "blocks": [{
+                
+                "type": "introText",
+                
+                "attrs": {
+                    
+                    "content": "Brodsy Atotio"
+                    
+                }
+                
+            }]
+            
+        }
+        
+    }]
+    
+}

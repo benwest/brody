@@ -1,0 +1,165 @@
+{
+    
+    "title": "Brody <span style='color: #9C9B9B'>Associates</span>",
+    
+    "url": "/",
+    
+    "type": "root",
+    
+    "children": [{
+        
+        "title": "Typography",
+        
+        "type": "discipline",
+        
+        "children": [{
+            
+            "id": 0,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 1,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 2,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 3,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 4,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        }]
+        
+    },{
+        
+        "title": "Identity",
+        
+        "children": [{
+            
+            "id": 5,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 6,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 7,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 8,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        },{
+            
+            "id": 9,
+            
+            "title": "Channel 4",
+            
+            "type": "project",
+            
+            "url": "/",
+            
+            "image": "/assets/img/Channel4.Web2_.jpg",
+            
+            "children": []
+            
+        }]
+        
+    }]
+    
+}
