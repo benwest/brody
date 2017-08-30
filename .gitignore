@@ -56,3 +56,6 @@ typings/
 
 # dotenv environment variables file
 .env
+
+assets/bundle.js
+assets/bundle.js.map
