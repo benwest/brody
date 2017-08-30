@@ -39,13 +39,14 @@ var styles = j2c.attach({
         height: '100%',
         top: 0,
         left: 0,
-        animation: 'fade-in 0.25s',
+        animation: 'fade-in 0.5s',
         
         backgroundPosition: 'center',
-        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        zIndex: 1,
         
         '.exit': {
-            animation: 'fade-out 0.25s'
+            zIndex: 0
         }
     }
     
@@ -57,7 +58,7 @@ var Src = {
 
         dom.classList.add( styles.exit );
         
-        return wait( 250 );
+        return wait( 500 );
 
     }
     
@@ -73,13 +74,13 @@ var ImgSrc = Object.assign({
 
 var BgSrc = Object.assign({
     
-    view: ({ attrs: { src, fixed } }) => {
+    view: ({ attrs: { src, fixed, fit = 'cover' } }) => {
         
         var style = {
-            backgroundImage: `url(${ src.url })`
+            backgroundImage: `url(${ src.url })`,
+            backgroundSize: fit,
+            backgroundAttachment: fixed ? 'fixed' : 'scroll'
         }
-        
-        if ( fixed ) style.backgroundAttachment = 'fixed';
         
         return <div class={ styles.img } style={ style }/>
         
@@ -117,13 +118,13 @@ var ImgContainer = {
 
 var Image = ( Src, Container ) => ({
     
-    srcIndex: -1,
+    srcIndex: 0,
     
     rect: undefined,
     
     oninit: ({ attrs: { file }, state }) => {
         
-        state.ratio = file.srcs[ 0 ].h / file.srcs[ 0 ].w;
+        state.ratio = file.h / file.w;
         
     },
     
@@ -135,7 +136,7 @@ var Image = ( Src, Container ) => ({
     
     onbeforeupdate: ({ attrs: { file }, state }) => {
         
-        var rect = state.rect();
+        var rect = lazyRect.get( state.rect );
         
         if ( !visible( rect ) ) return;
         
@@ -143,9 +144,9 @@ var Image = ( Src, Container ) => ({
         
     },
     
-    onbeforeremove: ({ dom }) => {
+    onbeforeremove: ({ state: { rect } }) => {
         
-        lazyRect.unsubscribe( dom );
+        lazyRect.unsubscribe( rect );
         
     },
     
@@ -154,19 +155,7 @@ var Image = ( Src, Container ) => ({
         state: { srcIndex, ratio }
     }) => {
         
-        var child;
-        
-        if ( srcIndex === -1 ) {
-            
-            child = '';
-            
-        } else {
-            
-            var src = attrs.file.srcs[ srcIndex ];
-            
-            child = <Src src={ src } key={ src.url } { ...attrs }/>;
-            
-        }
+        var child = <Src src={ attrs.file.srcs[ srcIndex ] } key={ srcIndex } { ...attrs }/>;
         
         return (
             <Container ratio={ ratio }>

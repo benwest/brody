@@ -88,5 +88,5 @@ module.exports = Object.assign(
     dict,
     indexed,
     breakpoint,
-    { switch: _switch, responsive, forEach, map, defs, mediaQueries }
+    { switch: _switch, responsive, forEach, map, get, defs, mediaQueries }
 )

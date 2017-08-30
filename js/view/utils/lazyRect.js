@@ -1,11 +1,9 @@
 var m = require('mithril');
 var throttle = require('lodash/throttle');
 var redraw = require('./redraw');
-var viewport = require('./viewport');
 
-var cache = new Map();
-
-var state = Object.assign( {}, viewport );
+var cache = {};
+var id = 0;
 
 var equal = ( r1, r2 ) => {
     
@@ -18,71 +16,53 @@ var equal = ( r1, r2 ) => {
     
 }
 
-var checkViewport = () => {
-    
-    var changed = Object.keys( viewport ).some( key => {
-        
-        return state[ key ] !== viewport[ key ];
-        
-    })
-    
-    if ( changed ) Object.assign( state, viewport );
-    
-    return changed;
-    
-}
-
-var checkRects = () => {
-    
-    var changed = false;
-    
-    for ( var [ dom, prevRect ] of cache ) {
-        
-        var nextRect = dom.getBoundingClientRect();
-        
-        changed = changed || !equal( prevRect, nextRect );
-        
-        cache.set( dom, nextRect );
-      
-    }
-    
-    return changed;
-    
-}
-
 var check = throttle( () => {
     
     var changed = false;
     
-    for ( var [ dom, prevRect ] of cache ) {
+    for ( var id in cache ) {
+        
+        var { dom, rect: prevRect } = cache[ id ];
         
         var nextRect = dom.getBoundingClientRect();
         
         changed = changed || !equal( prevRect, nextRect );
         
-        cache.set( dom, nextRect );
+        cache[ id ].rect = nextRect;
       
     }
     
     if ( changed ) redraw( false, 'lazyboy' );
     
-}, 250 )
+}, 300 )
 
 window.addEventListener( 'resize', check );
-window.addEventListener( 'scroll', check );
+window.addEventListener( 'scroll', check, true );
 
 module.exports = {
     
     subscribe: dom => {
         
-        cache.set( dom, dom.getBoundingClientRect() );
+        cache[ ++id ] = { dom, rect: false };
         
-        check();
-        
-        return () => cache.get( dom )
+        return id;
         
     },
     
-    unsubscribe: dom => cache.delete( dom )
+    get: id => {
+        
+        var cached = cache[ id ];
+        
+        if ( cached.rect === false ) {
+            
+             cached.rect = cached.dom.getBoundingClientRect()
+            
+        }
+        
+        return cached.rect;
+        
+    },
+    
+    unsubscribe: id => delete cache[ id ]
     
 };

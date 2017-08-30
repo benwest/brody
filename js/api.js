@@ -1,17 +1,33 @@
-var home = require('./mock/home');
-var menu = require('./mock/menu');
-var project = require('./mock/project');
-
-module.exports = url => new Promise( resolve => {
+module.exports = url => new Promise( ( resolve, reject ) => {
     
-    if ( url.indexOf('project') > -1 ) return resolve( project );
+    if ( window.__apiPreload[ url ] ) return resolve( window.__apiPreload[ url ] );
     
-    switch ( url ) {
+    var request = new window.XMLHttpRequest();
+    
+    request.open( 'GET', process.env.API_BASE + url, true );
+    
+    request.onload = () => {
         
-        case '/': return resolve( home );
+        if (request.status >= 200 && request.status < 400) {
+            
+            var response = JSON.parse( request.responseText );
+            
+            window.__apiPreload[ url ] = response;
+            
+            console.log( 'got', url );
+            
+            resolve( response );
+            
+        } else {
         
-        case 'menu': return resolve( menu );
+            reject();
         
-    }
+        }
+        
+    };
+    
+    request.onerror = reject;
+    
+    request.send();
     
 });

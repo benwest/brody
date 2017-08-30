@@ -35,7 +35,13 @@ module.exports = {
     
     onupdate: ({ state, dom }) => {
         
-        state.seen = state.seen || visible( state.rect() );
+        state.seen = state.seen || visible( lazyRect.get( state.rect ) );
+        
+    },
+    
+    onbeforeremove: ({ state: { rect } }) => {
+        
+        lazyRect.unsubscribe( rect );
         
     },
     

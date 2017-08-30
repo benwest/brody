@@ -17,7 +17,7 @@ var styles = j2c.attach({
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
         cursor: 'pointer',
-        zIndex: 100,
+        zIndex: 600,
         transform: 'translate(-50%, 50%)',
         left: '50%',
         bottom: baseline( phone ) * 2 + 'px',

@@ -2,6 +2,7 @@ var m = require('mithril');
 var j2c = require('mithril-j2c');
 var classnames = require('classnames');
 var breakpoints = require('../utils/breakpoints');
+var scrollTo = require('./scrollTo');
 
 var TextMenu = require('./TextMenu');
 var ImageMenu = require('./ImageMenu');
@@ -17,7 +18,8 @@ var styles = j2c.attach({
         transition: 'transform .5s ease-out, opacity .5s ease-in',
         // transform: 'scale( .8, .8 )',
         // opacity: 1,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        zIndex: 500
     },
     
     '.open': {
@@ -76,42 +78,51 @@ var styles = j2c.attach({
 
 module.exports = {
     
-    oninit: ({ state }) => {
+    side: -1,
+    
+    selected: -1,
+    
+    oninit: vnode => {
         
-        state.root = require('../../mock/menu.json');
-        
-        state.selected = -1;
-        // state.lastHovered = -1;
-        
-        state.select = state.select( state );
+        vnode.state.select = vnode.state.select( vnode );
         
     },
     
-    select: state => id => e => {
+    select: vnode => side => id => e => {
         
-        state.selected = id;
+        vnode.state.selected = id;
+        
+        var otherSide = side === 0 ? 1 : 0;
+        
+        // scrollTo( vnode.dom.childNodes[ otherSide ], id );
         
     },
     
     view: ({
-        state: { root, selected, select },
-        attrs: { open }
+        state,
+        attrs: { root, isOpen, link }
     }) => {
+        
+        var setSide = side => e => state.side = side;
         
         var menuClasses = classnames({
             [ styles.menu ]: true,
-            [ styles.open ]: open
+            [ styles.open ]: isOpen
         })
         
-        var attrs = { root, selected, select };
+        var attrs = {
+            root,
+            selected: state.selected,
+            link
+        };
         
         return (
             <div class={ menuClasses }>
-                <div class={ styles.left }>
-                    <TextMenu { ...attrs }/>
+                <div class={ styles.left } onmouseenter={ setSide( 0 ) }>
+                    <TextMenu select={ state.select( 0 ) } { ...attrs }/>
                 </div>
-                <div class={ styles.right }>
-                    <ImageMenu { ...attrs }/>
+                <div class={ styles.right } onmouseenter={ setSide( 1 ) }>
+                    <ImageMenu select={ state.select( 1 ) } { ...attrs }/>
                 </div>
             </div>
         );

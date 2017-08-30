@@ -3,21 +3,21 @@ var m = require('mithril');
 var Background = require('./Background');
 var Module = require('./Module');
 
-var group = blocks => blocks.reduce( ( backgrounds, block ) => {
+var group = modules => modules.reduce( ( backgrounds, module ) => {
     
-    if ( block.type === 'background' ) {
+    if ( module.type === 'background' ) {
         
-        backgrounds.push( { blocks: [], attrs: block.attrs } );
+        backgrounds.push( { modules: [], attrs: module.attrs } );
         
         return backgrounds;
         
     } else if ( backgrounds.length === 0 ) {
         
-        backgrounds.push( { blocks: [], color: '#000' } );
+        backgrounds.push( { modules: [], color: '#000' } );
         
     }
     
-    backgrounds[ backgrounds.length - 1 ].blocks.push( block );
+    backgrounds[ backgrounds.length - 1 ].modules.push( module );
     
     return backgrounds;
     
@@ -25,9 +25,9 @@ var group = blocks => blocks.reduce( ( backgrounds, block ) => {
 
 module.exports = {
     
-    oninit: ({ attrs: { blocks, meta }, state }) => {
+    oninit: ({ attrs: { modules, meta }, state }) => {
         
-        state.backgrounds = group( blocks );
+        state.backgrounds = group( modules );
         
         state.style = {
             color: meta.textColor
@@ -39,15 +39,15 @@ module.exports = {
         
         var backgrounds = backgrounds.map( ( background, i ) => {
             
-            var blocks = background.blocks.map( ( block, i ) => {
+            var modules = background.modules.map( ( module, i ) => {
                 
-                return <Module key={ i } { ...block }/>;
+                return <Module key={ i } { ...module }/>;
                 
             })
             
             return (
                 <Background key={ i } { ...background.attrs }>
-                    { blocks }
+                    { modules }
                 </Background>
             )
             

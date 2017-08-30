@@ -8,10 +8,17 @@ var resolver = {
         
     onmatch: ( params, path ) => {
         
-        return api( path )
-            .then( data => {
+        return Promise.all([
+            api( '/menu' ),
+            api( path ),
+        ]).then( ([ menu, data ]) => {
                 
-                return { meta: data.meta, view: () => ( <Modules { ...data }/> ) }
+                return { meta: data.meta, menu, view: () => ( <Modules { ...data }/> ) }
+                
+            })
+            .catch(() => {
+                
+                
                 
             });
         
@@ -21,7 +28,7 @@ var resolver = {
         
         return (
             <Page meta={ content.tag.meta }>
-                <Layout>
+                <Layout menu={ content.tag.menu }>
                     { content }
                 </Layout>
             </Page>

@@ -53,11 +53,11 @@ module.exports = {
             
         } else if ( file.type === 'video' ) {
             
-            child = <Video file={ file } cover={ true }/>
+            child = <Video file={ file } fit={ 'cover' }/>
             
         } else if ( file.type === 'image' ) {
             
-            child = <BackgroundImage file={ file } fixed={ fixed }/>
+            child = <BackgroundImage file={ file } fixed={ fixed } fit={ 'cover' }/>
             
         }
         

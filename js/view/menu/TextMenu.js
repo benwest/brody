@@ -15,12 +15,14 @@ var styles = j2c.attach({
     
     '.link': {
         lineHeight: '35px',
-        transition: 'opacity .25s',
-        display: 'block'
+        transition: 'color 2s',
+        display: 'block',
+        color: '#9C9B9B'
     },
     
-    '.dimmed': {
-        opacity: .5
+    '.active': {
+        color: 'white',
+        transition: 'color .25s'
     },
     
     '.list': {
@@ -35,19 +37,26 @@ var styles = j2c.attach({
 var Link = {
     
     view: ({
-        attrs: { item: { id, url, title }, selected, select }
+        attrs: { item: { id, url, title, children }, selected, select, link }
     }) => {
         
         var classes = classnames({
             [ styles.link ]: true,
-            [ styles.dimmed ]: selected !== -1 && selected !== id
+            [ styles.active ]: selected === id || children.find( child => selected === child.id )
         });
         
         var onmouseenter = url && select( id );
         var onmouseleave = url && select( -1 );
         
         return (
-            <a class={ classes } href={ url } onmouseenter={ onmouseenter } onmouseleave={ onmouseleave }>
+            <a
+                id={ 'i' + id }
+                class={ classes }
+                href={ url }
+                onmouseenter={ onmouseenter }
+                onmouseleave={ onmouseleave }
+                oncreate={ link }
+            >
                 { m.trust( title ) }
             </a>
         )
@@ -59,12 +68,12 @@ var Link = {
 var TextMenuItem = {
     
     view: ({
-        attrs: { item, selected, select }
+        attrs: { item, selected, select, link }
     }) => {
         
         var children = item.children.map( child => {
             
-            var attrs = { selected, select, item: child }; 
+            var attrs = { selected, select, item: child, link }; 
             
             return (
                 <li>
@@ -75,7 +84,7 @@ var TextMenuItem = {
         })
         
         return [
-            <Link key={ item.id } item={ item } selected={ selected } select={ select }/>,
+            <Link key={ item.id } item={ item } selected={ selected } select={ select } link={ link }/>,
             children.length ?
                 <ul key={ item.id + 'l' } class={ styles.list }>
                     { children }
@@ -91,12 +100,14 @@ var TextMenuItem = {
 module.exports = {
     
     view: ({
-        attrs: { selected, select, root }
+        attrs: { selected, select, root, link }
     }) => {
+        
+        if ( !root ) return;
         
         return (
             <div class={ styles.root }>
-                <TextMenuItem selected={ selected } select={ select } item={ root } />
+                <TextMenuItem selected={ selected } select={ select } item={ root } link={ link } />
             </div>
         )
         

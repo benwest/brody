@@ -58,6 +58,7 @@ var ServerPage = {
                 
                 <body>
                     { children }
+                    <script>{ m.trust( `window.__apiPreload = ${ JSON.stringify( global.window.__apiPreload ) }` ) }</script>
                     <script src="/assets/bundle.js"/>
                 </body>
                 

@@ -30,7 +30,7 @@ module.exports = ( file, rect ) => {
     
     var correct = bigEnough( file, rect );
     
-    var biggestLoaded = file.srcs.findIndex( src => cache[ src.url ] );
+    var biggestLoaded = Math.max( file.srcs.findIndex( src => cache[ src.url ] ), 0 );
     
     if ( biggestLoaded < correct ) {
         

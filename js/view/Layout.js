@@ -37,11 +37,18 @@ module.exports = {
     },
     
     view: ({
+        attrs: { menu },
         state,
         children,
     }) => {
         
         var toggleMenu = () => state.menuOpen = !state.menuOpen;
+        
+        var link = ({ dom }) => dom.addEventListener('click', e => {
+            e.preventDefault();
+            state.menuOpen = false;
+            m.route.set( dom.getAttribute('href') );
+        })
         
         // var mainClasses = classnames({
         //     [ styles.main ]: true,
@@ -53,7 +60,7 @@ module.exports = {
             <div>
                 { children }
             </div>,
-            //<Menu open={ state.menuOpen } />,
+            <Menu root={ menu } isOpen={ state.menuOpen } close={ toggleMenu } link={ link }/>,
             <MenuButton onclick={ toggleMenu } />
         ]
         

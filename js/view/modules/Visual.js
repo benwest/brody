@@ -1,19 +1,29 @@
 var m = require("mithril");
 
-var { Image } = require('./Image');
+var { Image, BackgroundImage } = require('./Image');
 var Video = require('./Video');
 
 module.exports = {
     
-    view: ({ attrs: { file } }) => {
+    view: ({ attrs: { file, fit } }) => {
         
         switch ( file.type ) {
             
             case 'image':
-                return <Image file={ file }/>
+                
+                if ( fit ) {
+                    
+                    return <BackgroundImage file={ file } fit={ fit }/>
+                    
+                } else {
+                    
+                    return <Image file={ file }/>
+                    
+                }
                 
             case 'video':
-                return <Video file={ file }/>
+                
+                return <Video file={ file } fit={ fit }/>
             
         }
         

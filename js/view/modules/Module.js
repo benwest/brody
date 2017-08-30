@@ -15,7 +15,7 @@ var styles = j2c.attach({
     }
 })
 
-var DEBUG = true;
+var DEBUG = false;
 
 var types = {
     introduction: require('./Introduction'),
@@ -24,6 +24,7 @@ var types = {
     visuals: require('./Visuals'),
     // image: require('./Images'),
     hero: require('../hero/Hero'),
+    stack: require('./Stack')
     // slider: require('./Slider')
 }
 
@@ -42,7 +43,8 @@ var debug = ( type, attrs ) => {
     
     var attrs = Object.keys( attrs ).map( key => {
         
-        var value = attrs[ key ].toString().substring(0, 50);
+        var value = key === 'files' ? attrs[ key ].length : attrs[ key ];
+        value = value.toString().substring(0, 50);
         return m('li', key + ': ' + value )
         
     })

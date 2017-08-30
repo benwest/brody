@@ -25,7 +25,9 @@ Object.keys( routes ).forEach( url => {
     
     server.get( url, ( req, res, next ) => {
         
-        if ( false /* dev */ ) {
+        global.window.__apiPreload = {};
+        
+        if ( true /* skip rendering */ ) {
             
             toHTML( m( Page, { meta: {} } ) ).then( html => res.send( html ) );
             

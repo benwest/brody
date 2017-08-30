@@ -1,3 +1,4 @@
+var { EnvironmentPlugin } = require('webpack');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var path = require('path');
 var isPlainObject = require('lodash/isPlainObject');
@@ -82,7 +83,7 @@ module.exports = ifEnv( env => ({
                                 
                                 '*': [ [ 'transform-react-jsx', { pragma: 'm' } ] ],
                                 
-                                'production': [ 'transform-runtime' ]
+                                'production': [ 'transform-runtime', 'mopt' ]
                                 
                             })
                             
@@ -99,6 +100,12 @@ module.exports = ifEnv( env => ({
     },
     
     plugins: env({
+        
+        '*': [
+            
+            new EnvironmentPlugin([ 'API_BASE' ])
+            
+        ],
         
         'production': [
         

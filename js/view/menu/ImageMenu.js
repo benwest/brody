@@ -3,16 +3,17 @@ var j2c = require('mithril-j2c');
 var classnames = require('classnames');
 var scrollTo = require('./scrollTo');
 var breakpoints = require('../utils/breakpoints');
+var { BackgroundImage } = require('../modules/Image');
 
 var styles = j2c.attach({
     
     '.image': {
         
         display: 'block',
+        position: 'relative',
         float: 'left',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        transition: 'filter .5s',
+        transition: 'filter 2s',
+        filter: 'grayscale(100%) brightness(50%)',
         width: '100%',
         paddingBottom: '100%',
         [ breakpoints.tabletLandscape ]: {
@@ -26,8 +27,9 @@ var styles = j2c.attach({
         
     },
     
-    '.dimmed': {
-        filter: 'grayscale( 100% )'
+    '.active': {
+        transition: 'filter .25s',
+        filter: 'none'
     }
     
 })
@@ -48,13 +50,15 @@ module.exports = {
         
     },
     
-    view: ({ attrs: { root, select, selected } }) => {
+    view: ({ attrs: { root, select, selected, link } }) => {
+        
+        if ( !root ) return;
         
         var projects = [];
         
         traverse( root, item => {
             
-            if ( item.type === 'project' ) projects.push( item );
+            if ( item.type === 'projects' ) projects.push( item );
             
         });
         
@@ -62,23 +66,22 @@ module.exports = {
             
             var imageClasses = classnames({
                 [ styles.image ]: true,
-                [ styles.dimmed ]: selected !== -1 && selected !== id
+                [ styles.active ]: selected === id
             })
-            
-            var style = {
-                backgroundImage: `url(${ image })`
-            }
             
             return (
                 <a
                     class={ imageClasses }
-                    style={ style }
                     key={ i }
                     id={ 'i' + id }
                     href={ url }
+                    oncreate={ m.route.link }
                     onmouseenter={ select( id ) }
                     onmouseleave={ select( -1 ) }
-                />
+                    oncreate={ link }
+                >
+                    <BackgroundImage file={ image }/>
+                </a>
             )
             
         })
