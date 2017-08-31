@@ -24,7 +24,7 @@ module.exports = j2c.attach({
             mq( 'fontSize', [ 2/3 ] ),
             mq( 'lineHeight', [ 1, 1 ] ),
             {
-                '&:not(:last-child)': mq( 'marginBottom', [ 2, 1 ] )
+                '&:not(:last-child)': mq( 'marginBottom', [ 2 ] )
             }
         ),
         // {
@@ -32,9 +32,10 @@ module.exports = j2c.attach({
         //     lineHeight: baseline( phone ) + 'px',
         // },
         ' h1': merge(
-            mq( 'fontSize', 2 ),
-            mq( 'lineHeight', 3 ),
+            mq( 'fontSize', [ 2 ] ),
+            mq( 'lineHeight', [ 3 ] ),
             {
+                fontWeight: 'normal',
                 '&:not(:last-child)': mq( 'marginBottom', [ 2 ] )
             }
         ),
@@ -50,12 +51,22 @@ module.exports = j2c.attach({
             mq( 'fontSize', [ 4 / 5 ] ),
             mq( 'lineHeight', [ 1.25 ] ),
             {
+                fontWeight: 'normal',
                 '&:not(:last-child)': mq( 'marginBottom', [ 2 ] )
             }
-        )
+        ),
         // {
         //     fontSize: baseline( phone ) * 4 / 5 + 'px',
         //     lineHeight: baseline( phone ) + 'px',
         // }
+        
+        ' *:global(.text-center)': {
+            textAlign: 'center'
+        },
+        
+        ' *:global(.text-right)': {
+            textAlign: 'right'
+        }
+        
     }
 })

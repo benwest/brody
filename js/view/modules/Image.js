@@ -43,7 +43,7 @@ var styles = j2c.attach({
         
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        zIndex: 1,
+        // zIndex: 1,
         
         '.exit': {
             zIndex: 0
@@ -66,18 +66,20 @@ var Src = {
 
 var ImgSrc = Object.assign({
     
-    view: ({ attrs: { src } }) => {
-        return <img class={ styles.img } src={ src.url }/>
+    view: ({ attrs: { file, index } }) => {
+        return <img class={ styles.img } src={ file.srcs[ index ].url }/>
     }
     
 }, Src );
 
 var BgSrc = Object.assign({
     
-    view: ({ attrs: { src, fixed, fit = 'cover' } }) => {
+    view: ({ attrs: { file, index, fixed, fit = 'cover' } }) => {
+        
+        if ( file.srcs[ index ].w === 1 ) index++;
         
         var style = {
-            backgroundImage: `url(${ src.url })`,
+            backgroundImage: `url(${ file.srcs[ index ].url })`,
             backgroundSize: fit,
             backgroundAttachment: fixed ? 'fixed' : 'scroll'
         }
@@ -155,7 +157,7 @@ var Image = ( Src, Container ) => ({
         state: { srcIndex, ratio }
     }) => {
         
-        var child = <Src src={ attrs.file.srcs[ srcIndex ] } key={ srcIndex } { ...attrs }/>;
+        var child = <Src file={ attrs.file } index={ srcIndex } key={ srcIndex } { ...attrs }/>;
         
         return (
             <Container ratio={ ratio }>

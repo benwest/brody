@@ -15,17 +15,12 @@ var styles = j2c.attach({
         height: '100%',
         top: 0,
         left: 0,
-        transition: 'transform .5s ease-out, opacity .5s ease-in',
-        // transform: 'scale( .8, .8 )',
-        // opacity: 1,
         pointerEvents: 'none',
         zIndex: 500
     },
     
     '.open': {
-        // transform: 'none',
-    //     opacity: 1,
-            pointerEvents: 'visible'
+        pointerEvents: 'visible'
     },
     
     '.left, .right': {
@@ -36,6 +31,7 @@ var styles = j2c.attach({
         overflowX: 'hidden',
         overflowY: 'scroll',
         transition: 'transform .5s',
+        '-webkit-overflow-scrolling': 'touch',
         '.open &': {
             transform: 'none'
         }

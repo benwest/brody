@@ -1,9 +1,26 @@
 var m = require('mithril');
-
+var j2c = require('mithril-j2c');
 var { Row, Column } = require('../grid/Grid');
 var typography = require('../utils/typography');
-var RichText = require('./RichText');
 var Static = require('../utils/Static');
+var typography = require('../utils/typography');
+var { baseline } = require('../utils/metrics');
+var breakpoints = require('../utils/breakpoints');
+
+var styles = j2c.attach({
+    '.intro': {
+        [ breakpoints.tabletLandscape ]: {
+            'column-count': 2,
+            'column-gap': baseline( breakpoints.tabletLandscape )
+        },
+        [ breakpoints.desktop ]: {
+            'column-gap': baseline( breakpoints.desktop )
+        },
+        [ breakpoints.desktopLarge ]: {
+            'column-gap': baseline( breakpoints.desktopLarge )
+        }
+    }
+})
 
 module.exports = {
     
@@ -24,7 +41,9 @@ module.exports = {
                         </div>
                     </Column>
                     <Column width={[ 12, 8 ]} marginBottom={ [ 4, 2 ] }>
-                        <RichText content={ text }/>
+                        <div class={ styles.intro + ' ' + typography.text }>
+                            { m.trust( text ) }
+                        </div> 
                     </Column>
                 </Row>
             </Static>

@@ -36,6 +36,12 @@ module.exports = {
         
     },
     
+    onupdate: ({ state }) => {
+        
+        document.body.style.overflowY = state.menuOpen ? 'hidden' : 'scroll';
+        
+    },
+    
     view: ({
         attrs: { menu },
         state,
@@ -47,6 +53,7 @@ module.exports = {
         var link = ({ dom }) => dom.addEventListener('click', e => {
             e.preventDefault();
             state.menuOpen = false;
+            scrollTo( 0, 0 );
             m.route.set( dom.getAttribute('href') );
         })
         

@@ -3,12 +3,7 @@ var m = require('mithril');
 var { Row, Column } = require('../grid/Grid');
 var arrange = require('../grid/arrange');
 var Visual = require('./Visual');
-
-var widths = {
-    small: [ 8, 6, 4 ],
-    medium: [ 12, 8, 6 ],
-    large: [ 12 ]
-}
+var { imageWidths } = require('../utils/metrics');
 
 module.exports = {
     
@@ -17,7 +12,7 @@ module.exports = {
         state
     }) => {
         
-        state.columns = arrange( files, widths[ width ], position );
+        state.columns = arrange( files, imageWidths[ width ], position );
         
     },
     

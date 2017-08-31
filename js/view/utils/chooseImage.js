@@ -34,7 +34,15 @@ module.exports = ( file, rect ) => {
     
     if ( biggestLoaded < correct ) {
         
-        load( file.srcs[ correct ].url );
+        var src = file.srcs[ correct ].url;
+        
+        if ( !( src in cache ) ) {
+            
+            cache[ src ] = false;
+            
+            load( src );
+            
+        }
         
     }
     

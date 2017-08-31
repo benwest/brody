@@ -4,6 +4,7 @@ var classnames = require('classnames');
 var scrollTo = require('./scrollTo');
 var breakpoints = require('../utils/breakpoints');
 var { BackgroundImage } = require('../modules/Image');
+var { baseline } = require('../utils/metrics');
 
 var styles = j2c.attach({
     
@@ -12,7 +13,7 @@ var styles = j2c.attach({
         display: 'block',
         position: 'relative',
         float: 'left',
-        transition: 'filter 2s',
+        transition: 'filter 2s, transform 2s',
         filter: 'grayscale(100%) brightness(50%)',
         width: '100%',
         paddingBottom: '100%',
@@ -28,8 +29,9 @@ var styles = j2c.attach({
     },
     
     '.active': {
-        transition: 'filter .25s',
-        filter: 'none'
+        transition: 'filter .25s, transform .25s',
+        filter: 'none',
+        ' ': breakpoints.mediaQueries( baseline, x => ({ transform: `translate(${x}px, ${x}px)` }) )
     }
     
 })
@@ -69,6 +71,10 @@ module.exports = {
                 [ styles.active ]: selected === id
             })
             
+            var style = {
+                zIndex: projects.length - i
+            }
+            
             return (
                 <a
                     class={ imageClasses }
@@ -79,6 +85,7 @@ module.exports = {
                     onmouseenter={ select( id ) }
                     onmouseleave={ select( -1 ) }
                     oncreate={ link }
+                    style={ style }
                 >
                     <BackgroundImage file={ image }/>
                 </a>

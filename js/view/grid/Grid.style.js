@@ -110,7 +110,7 @@ var modifier = ( prefix, values = [] ) => {
     
     if ( !Array.isArray( values ) ) values = [ values ];
     
-    return values.map( ( value, i ) => {
+    return breakpoints.fill( values ).map( ( value, i ) => {
         return css[ name( breakpoints[ i ], prefix, value ) ]
     })
     

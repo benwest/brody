@@ -19,8 +19,8 @@ module.exports = keyframes => {
     
     return t => {
     
-        if ( t < startTime ) return start;
-        if ( t > endTime ) return end;
+        if ( t <= startTime ) return start;
+        if ( t >= endTime ) return end;
         
         var from, to;
         

@@ -14,7 +14,8 @@ styles.attach('@global', {
         background: 'black',
         fontFamily: 'Benton Sans, sans-serif',
         color: 'white',
-        '-webkit-font-smoothing': 'antialiased'
+        '-webkit-font-smoothing': 'antialiased',
+        overflowX: 'hidden'
     },
     
     ' a': {

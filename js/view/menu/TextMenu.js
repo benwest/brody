@@ -15,14 +15,15 @@ var styles = j2c.attach({
     
     '.link': {
         lineHeight: '35px',
-        transition: 'color 2s',
+        transition: 'color 2s, transform 2s',
         display: 'block',
         color: '#9C9B9B'
     },
     
     '.active': {
         color: 'white',
-        transition: 'color .25s'
+        ' ': mediaQueries( baseline, x => ({ transform: 'translateX(35px)' }) ),
+        transition: 'color .25s, transform .25s'
     },
     
     '.list': {
@@ -42,7 +43,7 @@ var Link = {
         
         var classes = classnames({
             [ styles.link ]: true,
-            [ styles.active ]: selected === id || children.find( child => selected === child.id )
+            [ styles.active ]: selected === id// || children.find( child => selected === child.id )
         });
         
         var onmouseenter = url && select( id );

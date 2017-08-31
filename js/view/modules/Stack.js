@@ -10,11 +10,12 @@ var Visual = require('./Visual');
 
 var styles = j2c.attach({
     '.layer': {
-        position: 'absolute',
         top: '50%',
         left: '50%'
     }
 })
+
+var origin = [ 0, 0 ];
 
 var directions = {
     up: [ 0, -1 ],
@@ -23,29 +24,35 @@ var directions = {
     right: [ 1, 0 ]
 }
 
+var add = ( v1, v2 ) => [ v1[ 0 ] + v2[ 0 ], v1[ 1 ] + v2[ 1 ] ];
+var sub = ( v1, v2 ) => [ v1[ 0 ] - v2[ 0 ], v1[ 1 ] - v2[ 1 ] ];
+
 var horizontal = direction => direction === 'left' || direction === 'right';
 
 module.exports = {
     
     oninit: ({
         state,
-        attrs: { order, direction, files, inset, fit }
+        attrs: { files, direction, order, inset, fit }
     }) => {
         
-        var off = directions[ direction ];
-        var on = [ 0, 0 ];
+        var dir = directions[ direction ];
         
         var from, to, startTime;
         
-        if ( order === 'up' ) {
-            from = off;
-            to = on;
-            startTime = 0;
+        if ( order === 'enter' ) {
+            
+            from = sub( origin, dir );
+            to = origin;
+            startTime = -1;
+            
         } else {
-            from = on;
-            to = off;
+            
+            from = origin;
+            to = add( origin, dir );
             startTime = 0;
             files = reverse( files );
+            
         }
         
         var layers = files.map( ( file, i ) => {
@@ -64,18 +71,18 @@ module.exports = {
             
         });
         
-        if ( order === 'down' ) layers = reverse( layers );
+        if ( order === 'exit' ) layers = reverse( layers );
         
-        state.getContent = progress => {
+        state.getContent = ( progress, fixed ) => {
             
             var p = progress / ( horizontal( direction ) ? viewport.w : viewport.h );
             
-            var ins = inset ? baseline( breakpoints.get( viewport.w ) ) : 0;
+            var ins = inset ? baseline() : 0;
             
             var w = viewport.w;
             var h = viewport.h;
             
-            return layers.map( ({ file, x, y }) => {
+            return layers.map( ({ file, x, y }, i ) => {
                 
                 w -= ins * 2;
                 h -= ins * 2;
@@ -86,11 +93,12 @@ module.exports = {
                 var style = {
                     width: w + 'px',
                     height: h + 'px',
-                    transform: `translate(-50%, -50%) translate(${ x }px, ${ y }px)`
+                    transform: `translate(-50%, -50%) translate(${ x }px, ${ y }px)`,
+                    position: fixed ? 'fixed' : 'absolute'
                 }
                 
                 return (
-                    <div class={ styles.layer } style={ style }>
+                    <div class={ styles.layer } style={ style } key={ i }>
                         <Visual file={ file } fit={ fit }/>
                     </div>
                 )
@@ -103,7 +111,7 @@ module.exports = {
     
     view: ({
         state: { getContent },
-        attrs: { files, direction, order }
+        attrs: { files, direction }
     }) => {
         
         var pageSize = horizontal( direction ) ? viewport.w : viewport.h;
@@ -112,7 +120,7 @@ module.exports = {
             <Fixer
                 width={ viewport.w }
                 height={ viewport.h }
-                scrollHeight={ pageSize * files.length }
+                scrollHeight={ pageSize * ( files.length - 1 ) }
                 getContent={ getContent }
             />
         )

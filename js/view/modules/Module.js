@@ -19,13 +19,12 @@ var DEBUG = false;
 
 var types = {
     introduction: require('./Introduction'),
-    // stack: require('./Stack'),
     text: require('./Text'),
     visuals: require('./Visuals'),
-    // image: require('./Images'),
     hero: require('../hero/Hero'),
-    stack: require('./Stack')
-    // slider: require('./Slider')
+    stack: require('./Stack'),
+    slider: require('./Slider'),
+    typeTester: require('./TypeTester')
 }
 
 var debug = ( type, attrs ) => {

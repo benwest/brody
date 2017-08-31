@@ -47,40 +47,26 @@ module.exports = {
         children
     }) => {
         
+        var bottom = top + scrollHeight + height;
+        var fixed = top < 0 && bottom > viewport.h;
+        
         var spacerStyle = {
             height: scrollHeight + height + 'px'
         };
         
         var containerStyle = {
             width: width + 'px',
-            height: height + 'px'
+            height: height + 'px',
+            position: fixed ? 'fixed' : 'absolute',
+            top: bottom <= viewport.h ? scrollHeight + 'px' : 0
         }
-        
-        var bottom = top + scrollHeight + height;
-        
-        if ( top > 0 ) {
             
-            containerStyle.top = '0px';
-            containerStyle.position = 'absolute';
-            
-        } else if ( bottom < viewport.h ) {
-            
-            containerStyle.top = scrollHeight + 'px';
-            containerStyle.position = 'absolute';
-            
-        } else {
-            
-            containerStyle.top = '0px';
-            containerStyle.position = 'fixed';
-            
-        }
-        
         var progress = Math.max( Math.min( -top, scrollHeight ), 0 );
         
         return (
             <div class={ styles.spacer } style={ spacerStyle }>
                 { visible && <div class={ styles.container } style={ containerStyle }>
-                    { getContent ? getContent( progress ) : children }
+                    { getContent ? getContent( progress, fixed ) : children }
                 </div> }
             </div>
         )

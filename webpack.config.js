@@ -103,7 +103,7 @@ module.exports = ifEnv( env => ({
         
         '*': [
             
-            new EnvironmentPlugin([ 'API_BASE' ])
+            new EnvironmentPlugin({ API_BASE: 'http://brody-cms.bong.international/api' })
             
         ],
         

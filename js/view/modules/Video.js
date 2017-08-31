@@ -8,6 +8,7 @@ var styles = j2c.attach({
     '.video': {
         width: '100%',
         '&.cover': {
+            width: 'auto',
             position: 'absolute',
             top: '50%',
             left: '50%',
@@ -45,7 +46,7 @@ module.exports = {
         
     },
     
-    view: ({ attrs: { file, cover }, state: { seen } }) => {
+    view: ({ attrs: { file, fit }, state: { seen } }) => {
         
         if ( !seen ) {
             
@@ -57,9 +58,9 @@ module.exports = {
             
         }
         
-        var classname = styles.video + ' ' + ( cover ? styles.cover : '' );
+        var classname = styles.video + ' ' + ( fit === 'cover' ? styles.cover : '' );
         
-        return <video class={ classname } src={ file.url } autoplay loop muted/>
+        return <video class={ classname } src={ file.url } autoplay loop muted playsinline/>
         
     }
     

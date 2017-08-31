@@ -1,3 +1,5 @@
+var viewport = require('./viewport');
+
 var defs = [{
     name: 'phone',
     min: 0,
@@ -27,15 +29,7 @@ var defs = [{
     
 })
 
-var get = w => defs.find( ({ min, max }) => w >= min && w < max );
-
-var breakpoint = {
-    
-    curr: get( window.innerWidth )
-    
-}
-
-window.addEventListener( 'resize', () => breakpoint.curr = get( window.innerWidth ) );
+var get = ( w = viewport.w ) => defs.find( ({ min, max }) => w >= min && w < max );
 
 var fill = v => {
     
@@ -47,9 +41,9 @@ var fill = v => {
     
 }
 
-var _switch = ( values, breakpoint ) => fill( values )[ breakpoint.i ];
+var _switch = ( values, breakpoint = get() ) => values[ Math.min( values.length - 1, breakpoint.i ) ];
 
-var responsive = values => breakpoint => _switch( values, breakpoint );
+var responsive = values => ( breakpoint = get() ) => _switch( values, breakpoint );
 
 var dict = defs.reduce( ( dict, def ) => {
     
@@ -87,6 +81,5 @@ var mediaQueries = ( rsps, transform ) => {
 module.exports = Object.assign(
     dict,
     indexed,
-    breakpoint,
-    { switch: _switch, responsive, forEach, map, get, defs, mediaQueries }
+    { switch: _switch, fill, responsive, forEach, map, get, defs, mediaQueries }
 )

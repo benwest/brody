@@ -1,5 +1,6 @@
 var m = require('mithril');
 var j2c = require('mithril-j2c');
+var classnames = require('classnames');
 var { baseline } = require('../utils/metrics');
 var { responsive, mediaQueries } = require('../utils/breakpoints');
 var merge = require('lodash/merge');
@@ -36,13 +37,31 @@ var styles = j2c.attach({
 module.exports = {
     
     view: ({
-        attrs: { color, file, fixed, showAll },
+        attrs: { color, file, fixed, height },
         children
     }) => {
         
+        var minHeight;
+        
+        switch ( height ) {
+            
+            case 'content':
+                minHeight = 'auto';
+                break;
+                
+            case 'file':
+                minHeight = ( file.h / file.w ) * 100 + 'vw';
+                break;
+                
+            case 'viewport':
+                minHeight = '100vh';
+                break;
+            
+        }
+        
         var style = {
-            backgroundColor: color,
-            minHeight: showAll ? '100vh' : 'auto'
+            minHeight,
+            backgroundColor: color
         }
         
         var child;
