@@ -25,19 +25,19 @@ var group = modules => modules.reduce( ( backgrounds, module ) => {
 
 module.exports = {
     
-    oninit: ({ attrs: { modules, meta }, state }) => {
+    // oninit: ({ attrs: { modules, meta }, state }) => {
         
-        state.backgrounds = group( modules );
+    //     state.backgrounds = group( modules );
         
-        state.style = {
-            color: meta.textColor
-        };
+    //     state.style = {
+    //         color: meta.textColor
+    //     };
         
-    },
+    // },
     
-    view: ({ state: { style, backgrounds }, attrs }) => {
+    view: ({ attrs: { modules, meta } }) => {
         
-        var backgrounds = backgrounds.map( ( background, i ) => {
+        var backgrounds = group( modules ).map( ( background, i ) => {
             
             var modules = background.modules.map( ( module, i ) => {
                 
@@ -52,6 +52,10 @@ module.exports = {
             )
             
         });
+        
+        var style = {
+            color: meta.textColor
+        };
         
         return <div style={ style }>{ backgrounds }</div>;
         

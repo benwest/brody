@@ -1,13 +1,31 @@
 var m = require('mithril');
 var Page = require('./view/Page');
-// var Layout = require('./view/Layout');
-// var Modules = require('./view/modules/Modules');
-// var api = require('./api');
+var api = require('./api');
 
-module.exports = {
+var route = url => {
     
-    '/': Page,
+    var data = {};
     
-    '/project/:slug': Page
+    return {
+        
+        [ url ]: {
+            
+            onmatch: ( params, path ) => api( path ).then( r => {
+                
+                data.path = path;
+                data.modules = r.modules;
+                data.meta = r.meta;
+                
+            }),
+            
+            render: () => ( <Page {...data }/> )
+            
+        }
+    }
     
-};
+}
+
+module.exports = Object.assign(
+    route('/'),
+    route('/project/:slug')
+)

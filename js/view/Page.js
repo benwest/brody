@@ -51,13 +51,13 @@ var Page = {
         vnode.state.link = vnode.state.link( vnode );
         vnode.state.getData = vnode.state.getData( vnode );
         
-        return vnode.state.getData( m.route.get() );
+        // return vnode.state.getData( vnode.attrs.route );
         
     },
     
     onupdate: vnode => {
         
-        vnode.state.getData( m.route.get() );
+        // vnode.state.getData( vnode.attrs.route );
         
     },
     
@@ -91,33 +91,33 @@ var Page = {
     
 }
 
-var clientView = ({ state }) => {
+var clientView = ({ attrs, state }) => {
     
     var toggleMenu = () => state.menuOpen = !state.menuOpen;
     
     return [
         j2c.view(),
-        state.modules && <Modules modules={ state.modules } meta={ state.meta }/>,
-        !state.modules && <Preloader/>,
-        state.meta && <Menu isOpen={ state.menuOpen } link={ state.link }/>,
-        state.meta && <MenuButton onclick={ toggleMenu } />
+        attrs.modules && <Modules key={ attrs.path } modules={ attrs.modules } meta={ attrs.meta }/>,
+        !attrs.modules && <Preloader/>,
+        attrs.meta && <Menu isOpen={ state.menuOpen } link={ state.link }/>,
+        attrs.meta && <MenuButton onclick={ toggleMenu } />
     ]
     
 };
 
-var serverView = ({ state }) => {
+var serverView = ({ attrs, state }) => {
     
     return (
         
         <html lang="en">
             <head>
-                <title>{ state.meta.title }</title>
+                <title>{ attrs.meta && attrs.meta.title }</title>
                 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1" />
-                <meta name="description" content={ state.meta.description } />
+                <meta name="description" content={ attrs.meta && attrs.meta.description } />
             </head>
             <body>
-                { clientView({ state }) }
-                <script>{ m.trust( `window.__apiPreload = ${ JSON.stringify( global.window.__apiPreload ) }` ) }</script>
+                { clientView({ attrs, state }) }
+                //<script>{ m.trust( `window.__apiCache = ${ JSON.stringify({ [ attrs.path ]: { meta: attrs.meta, modules: attrs.modules } }) }` ) }</script>
                 <script src="/assets/bundle.js"/>
             </body>
         </html>

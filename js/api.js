@@ -1,37 +1,46 @@
-module.exports = url => new Promise( ( resolve, reject ) => {
+var axios = require('axios');
+
+module.exports = url => {
     
-    if ( window.__apiPreload[ url ] ) return resolve( window.__apiPreload[ url ] );
+    return axios.get( process.env.API_BASE + url )
+        .then( r => r.data )
     
-    var request = new window.XMLHttpRequest();
+}
+
+// module.exports = url => new Promise( ( resolve, reject ) => {
     
-    request.open( 'GET', process.env.API_BASE + url, true );
+//     if ( window.__apiPreload[ url ] ) return resolve( window.__apiPreload[ url ] );
     
-    request.onload = () => {
+//     var request = new window.XMLHttpRequest();
+    
+//     request.open( 'GET', process.env.API_BASE + url, true );
+    
+//     request.onload = () => {
         
-        if (request.status >= 200 && request.status < 400) {
+//         if (request.status >= 200 && request.status < 400) {
             
-            var response = JSON.parse( request.responseText );
+//             var response = JSON.parse( request.responseText );
             
-            window.__apiPreload[ url ] = response;
+//             window.__apiPreload[ url ] = response;
             
-            // console.log( 'got', url );
+//             // console.log( 'got', url );
             
-            resolve( response );
+//             resolve( response );
             
-        } else {
+//         } else {
         
-            reject();
+//             reject();
         
-        }
+//         }
         
-    };
+//     };
     
-    request.onerror = () => {
+//     request.onerror = () => {
         
-        reject();
+//         reject();
         
-    };
+//     };
     
-    request.send();
-    
-});
+//     request.send();
+
+// });

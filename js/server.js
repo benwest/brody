@@ -3,10 +3,11 @@ require('babel-register')({
 });
 
 require('mithril/test-utils/browserMock')( global );
-global.window.innerWidth = 1;
-global.window.innerHeight = 1;
+global.window.innerWidth = 1920;
+global.window.innerHeight = 1200;
 global.window.pageYOffset = 0;
 global.window.addEventListener = () => {};
+global.window.requestAnimationFrame = () => {};
 global.window.XMLHttpRequest = require('w3c-xmlhttprequest').XMLHttpRequest;
 
 var m = require('mithril');
@@ -27,22 +28,15 @@ Object.keys( routes ).forEach( url => {
     
     server.get( url, ( req, res, next ) => {
         
-        global.window.__apiPreload = {};
-        
-        if ( true /* skip rendering */ ) {
+        if ( false /* skip rendering */ ) {
             
-            toHTML( m( Page, { meta: {} } ) ).then( html => res.send( html ) );
+            toHTML( m( Page, { meta: null, modules: null } ) ).then( html => res.send( html ) );
             
         } else {
             
             onmatch( req.params, req.url )
-                .then( progress('onmatch') )
-                .then( m )
-                .then( progress('m') )
                 .then( render )
-                .then( progress('render') )
                 .then( toHTML )
-                .then( progress('tohtml') )
                 .then( html => {
                     
                     res
