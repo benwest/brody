@@ -6,7 +6,7 @@ var { mediaQueries } = require('../utils/breakpoints');
 
 var styles = j2c.attach({
     
-    '.root': mediaQueries( baseline, x => ({ padding: `0 0 0 ${x}px` }) ),
+    '.root': mediaQueries( baseline, x => ({ padding: `0 0 ${ x * 5 }px ${x}px` }) ),
     // {
     //     [ breakpoints.tablet ]: {
     //         padding: '0 0 0 35px'
@@ -56,7 +56,7 @@ var Link = {
                 href={ url }
                 onmouseenter={ onmouseenter }
                 onmouseleave={ onmouseleave }
-                oncreate={ link }
+                oncreate={ url && link }
             >
                 { m.trust( title ) }
             </a>

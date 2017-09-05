@@ -1,32 +1,43 @@
 var m = require('mithril');
 var j2c = require('mithril-j2c');
+var classnames = require('classnames');
 var lazyRect = require('../utils/lazyRect');
 var visible = require('../utils/visible');
 var redraw = require('../utils/redraw');
 
 var styles = j2c.attach({
-    '.video': {
+    '.container': {
         width: '100%',
+        ' video': {
+            '@keyframes fade-in': {
+                ' from': { opacity: 0 },
+                ' to': { opacity: 1 }
+            },
+            animation: 'fade-in 1s',
+            width: '100%'
+        },
         '&.cover': {
-            width: 'auto',
+            height: '100%',
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            minWidth: '100%',
-            minHeight: '100%',
-            pointerEvents: 'none'
+            top: 0,
+            left: 0,
+            pointerEvents: 'none',
+            ' video': {
+                width: 'auto',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                minWidth: '100%',
+                minHeight: '100%',
+            }
         }
     }
 })
 
 module.exports = {
     
-    oninit: ({ state, attrs: { file } }) => {
-        
-        state.seen = false;
-        
-    },
+    visible: false,
     
     oncreate: ({ state, dom }) => {
         
@@ -36,7 +47,7 @@ module.exports = {
     
     onupdate: ({ state, dom }) => {
         
-        state.seen = state.seen || visible( lazyRect.get( state.rect ) );
+        state.visible = visible( lazyRect.get( state.rect ) );
         
     },
     
@@ -46,21 +57,26 @@ module.exports = {
         
     },
     
-    view: ({ attrs: { file, fit }, state: { seen } }) => {
+    view: ({ attrs: { file, fit }, state: { visible } }) => {
         
-        if ( !seen ) {
+        var classname = classnames({
+            [ styles.container ]: true,
+            [ styles.cover ]: fit === 'cover'
+        })
+        
+        var style = {};
+        
+        if ( !visible && fit !== 'cover' ) {
             
-            var style = {
-                paddingBottom: ( file.h / file.w ) * 100 + '%'
-            }
-            
-            return <div class={ styles.video } style={ style }/>
+            style.paddingBottom = ( 9 / 16 ) * 100 + '%'
             
         }
         
-        var classname = styles.video + ' ' + ( fit === 'cover' ? styles.cover : '' );
-        
-        return <video class={ classname } src={ file.url } autoplay loop muted playsinline/>
+        return (
+            <div class={ classname } style={ style }>
+                { visible && <video src={ file.url } autoplay loop muted playsinline/> }
+            </div>
+        )
         
     }
     

@@ -17,7 +17,7 @@ window.addEventListener( 'resize', () => {
     
     viewport.h = window.innerHeight;
     
-    redraw( true, 'window' );
+    redraw( 'window' );
     
 })
 
@@ -25,7 +25,7 @@ window.addEventListener( 'scroll', () => {
     
     viewport.st = window.pageYOffset;
     
-    redraw( true, 'scroll' );
+    redraw( 'scroll' );
     
 })
 

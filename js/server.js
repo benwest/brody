@@ -19,6 +19,8 @@ var Page = require('./view/Page');
 
 var server = express();
 
+var progress = name => x => { console.log(name); return x; }
+
 Object.keys( routes ).forEach( url => {
     
     var { onmatch, render } = routes[ url ];
@@ -34,9 +36,13 @@ Object.keys( routes ).forEach( url => {
         } else {
             
             onmatch( req.params, req.url )
+                .then( progress('onmatch') )
                 .then( m )
+                .then( progress('m') )
                 .then( render )
+                .then( progress('render') )
                 .then( toHTML )
+                .then( progress('tohtml') )
                 .then( html => {
                     
                     res

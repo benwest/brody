@@ -24,7 +24,8 @@ var types = {
     hero: require('../hero/Hero'),
     stack: require('./Stack'),
     slider: require('./Slider'),
-    typeTester: require('./TypeTester')
+    typeTester: require('./TypeTester'),
+    featured: require('./Featured')
 }
 
 var debug = ( type, attrs ) => {
@@ -52,7 +53,7 @@ var debug = ( type, attrs ) => {
     
 }
 
-module.exports = {
+var Module = {
     
     view: ({
         attrs: { type, attrs }
@@ -83,3 +84,7 @@ module.exports = {
     }
     
 }
+
+
+// circular dependency
+Object.assign( module.exports, Module )

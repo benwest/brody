@@ -14,7 +14,7 @@ module.exports = url => new Promise( ( resolve, reject ) => {
             
             window.__apiPreload[ url ] = response;
             
-            console.log( 'got', url );
+            // console.log( 'got', url );
             
             resolve( response );
             
@@ -26,7 +26,11 @@ module.exports = url => new Promise( ( resolve, reject ) => {
         
     };
     
-    request.onerror = reject;
+    request.onerror = () => {
+        
+        reject();
+        
+    };
     
     request.send();
     

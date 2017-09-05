@@ -3,6 +3,7 @@ var j2c = require('mithril-j2c');
 var classnames = require('classnames');
 var breakpoints = require('../utils/breakpoints');
 var scrollTo = require('./scrollTo');
+var api = require('../../api');
 
 var TextMenu = require('./TextMenu');
 var ImageMenu = require('./ImageMenu');
@@ -32,6 +33,7 @@ var styles = j2c.attach({
         overflowY: 'scroll',
         transition: 'transform .5s',
         '-webkit-overflow-scrolling': 'touch',
+        contain: 'strict',
         '.open &': {
             transform: 'none'
         }
@@ -82,6 +84,11 @@ module.exports = {
         
         vnode.state.select = vnode.state.select( vnode );
         
+        vnode.state.root = null;
+        
+        return api('/menu')
+            .then( menu => vnode.state.root = menu )
+        
     },
     
     select: vnode => side => id => e => {
@@ -96,7 +103,7 @@ module.exports = {
     
     view: ({
         state,
-        attrs: { root, isOpen, link }
+        attrs: { isOpen, link }
     }) => {
         
         var setSide = side => e => state.side = side;
@@ -107,7 +114,7 @@ module.exports = {
         })
         
         var attrs = {
-            root,
+            root: state.root,
             selected: state.selected,
             link
         };

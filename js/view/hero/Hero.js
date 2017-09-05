@@ -13,9 +13,8 @@ var styles = j2c.attach({
     
     '.hero': Object.assign(
         {
-            width: '100vw',
-            background: 'black',
-            //height: 'calc( 100vh - 105px )',
+            width: '100%',
+            background: 'black'
         },
         mediaQueries( [ baseline, peep ], getHeight )
     )
@@ -24,9 +23,9 @@ var styles = j2c.attach({
 
 module.exports = {
     
-    view: () => {
+    view: ({ children, state: { visible } }) => {
         
-        return <div class={ styles.hero }/>
+        return <div class={ styles.hero }>{ visible && children }</div>
         
     }
     

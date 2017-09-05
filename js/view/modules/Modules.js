@@ -35,7 +35,7 @@ module.exports = {
         
     },
     
-    view: ({ state: { style, backgrounds } }) => {
+    view: ({ state: { style, backgrounds }, attrs }) => {
         
         var backgrounds = backgrounds.map( ( background, i ) => {
             

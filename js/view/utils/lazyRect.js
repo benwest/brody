@@ -32,7 +32,7 @@ var check = throttle( () => {
       
     }
     
-    if ( changed ) redraw( false, 'lazyboy' );
+    if ( changed ) redraw( 'lazyboy' );
     
 }, 300 )
 

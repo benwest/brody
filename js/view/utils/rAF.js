@@ -90,11 +90,11 @@ var once = fn => {
 		
 		fn( now, dT );
 		
-		stop( name );
+		return false;
 		
 	}
 	
-	name = start( fn );
+	name = start( wrapped );
 	
 }
 

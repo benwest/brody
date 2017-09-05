@@ -11,7 +11,8 @@ var Visual = require('./Visual');
 var styles = j2c.attach({
     '.layer': {
         top: '50%',
-        left: '50%'
+        left: '50%',
+        contain: 'strtict'
     }
 })
 

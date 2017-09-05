@@ -6,7 +6,7 @@ var load = src => loadImage( src ).then( img => {
     
     cache[ src ] = true;
     
-    redraw( false, 'image load' );
+    redraw( 'image load' );
     
     return img;
     
@@ -16,9 +16,9 @@ var DPR = window.devicePixelRatio;
 
 var bigger = ( destW, destH ) => ({ w, h }) => w >= destW && h >= destH;
 
-var bigEnough = ( file, rect ) => {
+var bigEnough = ( file, width, height ) => {
     
-    var i = file.srcs.findIndex( bigger( rect.width * DPR, rect.height * DPR ) );
+    var i = file.srcs.findIndex( bigger( width * DPR, height * DPR ) );
     
     if ( i === -1 ) i = file.srcs.length - 1;
     
@@ -26,9 +26,9 @@ var bigEnough = ( file, rect ) => {
     
 }
 
-module.exports = ( file, rect ) => {
+module.exports = ( file, { width, height } ) => {
     
-    var correct = bigEnough( file, rect );
+    var correct = bigEnough( file, width, height );
     
     var biggestLoaded = Math.max( file.srcs.findIndex( src => cache[ src.url ] ), 0 );
     

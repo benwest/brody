@@ -11,7 +11,7 @@ var styles = j2c.attach({
         width: '100%'
     },
     '.container': {
-        pointerEvents: 'none',
+        // pointerEvents: 'none',
         overflowY: 'hidden'
     }
 })
