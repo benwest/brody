@@ -5,6 +5,7 @@ var viewport = require('../utils/viewport');
 var omit = require('lodash/omit');
 var { margin } = require( '../utils/metrics' );
 var Frame = require('./Frame');
+var getColor = require('./colors');
 
 var initStructure = item => {
     
@@ -47,10 +48,8 @@ var initStructure = item => {
 }
 
 var color = ( item, depth = 0 ) => {
-    
-    var v = ( depth * 2 + 1 ) * 16;
         
-    item.attrs.color = `rgb(${v}, ${v}, ${v})`;
+    item.attrs.color = getColor( depth );
     
     if ( item.type === 'list' ) {
         

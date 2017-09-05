@@ -7,6 +7,7 @@ var redraw = require('./utils/redraw');
 var Modules = require('./modules/Modules');
 var Menu = require('./menu/Menu');
 var MenuButton = require('./menu/MenuButton');
+var Preloader = require('./modules/Preloader');
 
 j2c.attach('@global', {
     
@@ -72,7 +73,7 @@ var Page = {
             .then( r => {
                 
                 vnode.state.meta = r.meta;
-                vnode.state.modules = r.modules;
+                // vnode.state.modules = r.modules;
                 redraw( 'route end' );
                 
             });
@@ -97,6 +98,7 @@ var clientView = ({ state }) => {
     return [
         j2c.view(),
         state.modules && <Modules modules={ state.modules } meta={ state.meta }/>,
+        !state.modules && <Preloader/>,
         state.meta && <Menu isOpen={ state.menuOpen } link={ state.link }/>,
         state.meta && <MenuButton onclick={ toggleMenu } />
     ]
