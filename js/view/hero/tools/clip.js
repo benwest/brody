@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = regl => regl({
     
     context: {
         
@@ -36,4 +36,4 @@ module.exports = {
         
     },
     
-};
+});

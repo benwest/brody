@@ -4,7 +4,7 @@ var mergeWith = require('lodash/mergeWith');
 var color = require('./color');
 var texture = require('./texture');
 
-var tool = ( props, context ) => {
+var tool = ( props, regl ) => {
     
     var command = mergeWith( {}, props, base, ( _, value ) => {
         
@@ -18,23 +18,45 @@ var tool = ( props, context ) => {
         
         if ( !prefix ) return;
         
-        var fn = context[ prefix ];
+        var fn = regl[ prefix ];
         
         return fn( value.replace( prefix + ':', '' ) );
         
     });
     
-    return context( command );
+    return regl( command );
     
 }
 
-module.exports = context => {
+module.exports = regl => {
     
     return {
         
-        color: tool( color, context ),
+        scene: regl({
+    
+            context: {
+                
+                viewport: regl.prop('viewport'),
+                
+                mouse: regl.prop('mouse'),
+                
+                lazyMouse: regl.prop('lazyMouse'),
+                
+                clipSize: regl.prop('clipSize'),
+                
+                clipOffset: regl.prop('clipOffset'),
+                
+                textures: regl.prop('textures'),
+                
+                tools: regl.prop('tools')
+                
+            }
+            
+        }),
         
-        texture: tool( texture, context )
+        color: tool( color, regl ),
+        
+        texture: tool( texture, regl )
         
     }
 

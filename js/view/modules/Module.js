@@ -1,5 +1,6 @@
 var m = require('mithril');
 var j2c = require('mithril-j2c');
+var Hero = require('../hero/Hero');
 
 var styles = j2c.attach({
     '.debug': {
@@ -25,7 +26,8 @@ var types = {
     slider: require('./Slider'),
     typeTester: require('./TypeTester'),
     featured: require('./Featured'),
-    parallaxHero: require('../hero/ParallaxHero')
+    parallaxHero: Hero( require('../hero/ParallaxHero') ),
+    infinityHero: Hero( require('../hero/InfinityHero') )
 }
 
 var debug = ( type, attrs ) => {

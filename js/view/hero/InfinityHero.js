@@ -3,27 +3,29 @@ var fit = require('./utils/fit')
 var range = require('lodash/range');
 
 module.exports = ({
-    attrs: { depth, backgroundColor, backgroundImage, layers },
+    attrs: { depth, feather, scale, backgroundColor, backgroundImage, layers },
     state: { viewport, mouse, lazyMouse, clipSize, clipOffset, textures, tools }
 }) => {
     
     var center = vec2.scale( [], clipSize, .5 );
     
-    var d = Math.min( viewport[ 0 ], viewport[ 1 ] ) * depth * .25;
+    var d = Math.max( viewport[ 0 ], viewport[ 1 ] ) * depth;
     
-    var m = vec2.divide( [], lazyMouse(), viewport );
-    vec2.scale( m, m, 2 );
-    vec2.subtract( m, m, [ 1, 1 ] );
+    var count = 30 + ( backgroundImage ? 1 : 0 );
     
-    var count = layers.length + ( backgroundImage ? 1 : 0 );
-    
-    var draw = ( file, i, cover ) => {
+    var draw = ( i, cover ) => {
         
-        var parallax = ( ( count - i ) / count ) * d;
+        var m = vec2.divide( [], lazyMouse( 1 - i / count ), viewport );
+        vec2.scale( m, m, 2 );
+        vec2.subtract( m, m, [ 1, 1 ] );
+        
+        var file = layers[ i % layers.length ];
+        
+        var parallax = ( ( i - count / 2 ) / count ) * d;
         
         var size = vec2.create();
         
-        if ( cover ) {
+        if ( cover === true ) {
             
             vec2.add( size, viewport, vec2.fromValues( parallax * 2, parallax * 2 ) );
             
@@ -33,7 +35,9 @@ module.exports = ({
             
         }
         
-        size = fit( [], vec2.fromValues( file.w, file.h ), size, cover ? 'cover' : 'contain' );
+        size = fit( [], vec2.fromValues( file.w, file.h ), size, cover === true ? 'cover' : 'contain' );
+        
+        vec2.scale( size, size, scale );
         
         var offset = vec2.subtract( [], center, vec2.scale( [], size, .5 ) );
         
@@ -42,7 +46,7 @@ module.exports = ({
         tools.texture({
             size, offset,
             texture: textures( file, size ),
-            alpha: 1
+            alpha: i / count
         })
         
     }
@@ -59,6 +63,6 @@ module.exports = ({
         
     }
     
-    layers.forEach( ( file, i ) => draw( file, backgroundImage ? i + 1 : i ) );
+    range( count ).forEach( draw );
     
 }
