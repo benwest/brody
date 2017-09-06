@@ -117,7 +117,7 @@ var serverView = ({ attrs, state }) => {
             </head>
             <body>
                 { clientView({ attrs, state }) }
-                //<script>{ m.trust( `window.__apiCache = ${ JSON.stringify({ [ attrs.path ]: { meta: attrs.meta, modules: attrs.modules } }) }` ) }</script>
+                { false && <script>{ m.trust( `window.__apiCache = ${ JSON.stringify({ [ attrs.path ]: { meta: attrs.meta, modules: attrs.modules } }) }` ) }</script> }
                 <script src="/assets/bundle.js"/>
             </body>
         </html>

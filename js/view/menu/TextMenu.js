@@ -30,7 +30,7 @@ var styles = j2c.attach({
         listStyle: 'none',
         margin: 0,
         // padding: '0 0 0 35px',
-        ' ': mediaQueries( baseline, x => ({ padding: `0 0 0 ${x}px` }) )
+        // ' ': mediaQueries( baseline, x => ({ padding: `0 0 0 ${x}px` }) )
     }
     
 })

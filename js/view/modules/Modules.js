@@ -41,12 +41,12 @@ module.exports = {
             
             var modules = background.modules.map( ( module, i ) => {
                 
-                return <Module key={ i } { ...module }/>;
+                return <Module { ...module }/>;
                 
             })
             
             return (
-                <Background key={ i } { ...background.attrs }>
+                <Background { ...background.attrs }>
                     { modules }
                 </Background>
             )

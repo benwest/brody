@@ -24,9 +24,17 @@ module.exports = {
         
         state.rect = lazyRect.subscribe( dom );
         
+        state.check({ state, dom });
+        
     },
     
     onupdate: ({ state, dom }) => {
+        
+        state.check({ state, dom });
+        
+    },
+    
+    check: ({ state, dom }) => {
         
         var rect = lazyRect.get( state.rect );
         

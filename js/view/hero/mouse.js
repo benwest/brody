@@ -10,6 +10,7 @@ var MEMORY_LENGTH = 5000;
 var memory = [];
 
 var lerp = ( a, b, t ) => a + ( b - a ) * t;
+var map = ( x, im, iM, om, oM ) => om + ( x - im ) / ( iM - im ) * ( oM - om );
 
 var subscribe = () => {
     
@@ -37,14 +38,24 @@ var unsubscribe = () => {
 
 var tick = now => {
     
-    var [ x, y ] = actual;
-    var [ , lastX, lastY ] = memory[ memory.length - 1 ];
+    if ( !actual ) return;
     
-    memory.unshift([
-        now,
-        lerp( lastX, x, .95 ),
-        lerp( lastY, y, .95 )
-    ]);
+    if ( !memory.length ) {
+        
+        memory[ 0 ] = [ now, actual[ 0 ], actual[ 1 ] ];
+    
+    } else {
+        
+        var [ x, y ] = actual;
+        var [ , lastX, lastY ] = memory[ 0 ];
+        
+        memory.unshift([
+            now,
+            lerp( lastX, x, .1 ),
+            lerp( lastY, y, .1 )
+        ]);
+        
+    }
     
     var tooOld = now - MEMORY_LENGTH;
     
@@ -52,15 +63,28 @@ var tick = now => {
     
 };
 
-var get = time => {
+var get = ( time = Date.now() ) => {
     
     var l = memory.length;
+    
+    if ( l === 0 ) return [ 0, 0 ];
     
     for ( var i = 0; i < l; i++ ) {
         
         var [ t, x, y ] = memory[ i ];
         
-        if ( t <= time ) return [ x, y ];
+        if ( t <= time ) {
+            
+            if ( i === 0 ) return [ x, y ];
+            
+            var [ prevT, prevX, prevY ] = memory[ i - 1 ];
+            
+            return [
+                map( time, prevT, t, prevX, x ),
+                map( time, prevT, t, prevY, y ),
+            ];
+            
+        }
         
     }
     
@@ -70,7 +94,7 @@ var get = time => {
 
 var onmousemove = e => {
     
-    actual = [ e.pageX, e.pageY ];
+    actual = [ e.clientX, e.clientY ];
     
 }
 

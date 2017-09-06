@@ -1,6 +1,6 @@
 var { responsive, map } = require('./breakpoints');
 
-var baseline = responsive([ 20, 25, 35, 35 ]);
+var baseline = responsive([ 30, 30, 35, 35 ]);
 
 var topMargin = x => [ x, 0, 0, 0 ];
 var allMargins = x => [ x, x, x, x ];

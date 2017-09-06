@@ -22,12 +22,12 @@ var styles = j2c.attach({
         left: '50%',
         bottom: baseline( phone ) * 2 + 'px',
         
-        '@keyframes fade-in': {
-            ' from': { opacity: 0 },
-            ' to': { opacity: 1 }
-        },
+        // '@keyframes fade-in': {
+        //     ' from': { opacity: 0 },
+        //     ' to': { opacity: 1 }
+        // },
         
-        animation: 'fade-in 1s',
+        // animation: 'fade-in 1s',
         
         [ tablet ]: {
             bottom: baseline( tablet ) * 1.5 + 'px',

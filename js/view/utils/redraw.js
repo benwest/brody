@@ -29,16 +29,21 @@ var rAF = require('./rAF');
 
 var requested = false;
 
+var ids = [];
+
 module.exports = id => {
+    
+    ids.push( id );
     
     if ( !requested ) {
         
         requested = true;
         
         rAF.once(() => {
-            // console.log( 'redrawing', id );
-            m.redraw();
+            // console.log( 'redraw', ...ids );
             requested = false;
+            ids = [];
+            m.redraw();
         })
         
     }

@@ -10,7 +10,7 @@ var styles = j2c.attach({
         position: 'absolute',
         overflow: 'hidden',
         contain: 'strict',
-        border: '1px solid green'
+        // border: '1px solid green'
     },
     '.listItem': {
         position: 'absolute',
@@ -84,7 +84,7 @@ var List = {
                 // paddingLeft: child.attrs.x + 'px',
                 // lineHeight: child.attrs.y + 'px',
                 // height: child.attrs.y + 'px',
-                // backgroundColor: child.attrs.color,
+                backgroundColor: child.attrs.color,
                 transform: `translateY( ${ child.attrs.title.y }px )`
             }
             

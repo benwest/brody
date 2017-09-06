@@ -21,11 +21,11 @@ var types = {
     introduction: require('./Introduction'),
     text: require('./Text'),
     visuals: require('./Visuals'),
-    hero: require('../hero/Hero'),
     stack: require('./Stack'),
     slider: require('./Slider'),
     typeTester: require('./TypeTester'),
-    featured: require('./Featured')
+    featured: require('./Featured'),
+    parallaxHero: require('../hero/ParallaxHero')
 }
 
 var debug = ( type, attrs ) => {

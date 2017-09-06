@@ -55,7 +55,9 @@ module.exports = {
         
         if ( cached.rect === false ) {
             
-             cached.rect = cached.dom.getBoundingClientRect()
+             cached.rect = cached.dom.getBoundingClientRect();
+             
+             redraw( 'lazyboy' );
             
         }
         
