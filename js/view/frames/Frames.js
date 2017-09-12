@@ -142,12 +142,6 @@ var scrollHeight = list => {
     
 }
 
-var abs = list => {
-    
-    
-    
-}
-
 module.exports = {
     
     oninit: ({ attrs, state }) => {

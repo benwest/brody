@@ -1,15 +1,10 @@
-var DPR = window.devicePixelRatio || 1;
-
 module.exports = {
     
     context: {
         
         viewport: ctx => {
             
-            var w = ctx.drawingBufferWidth;
-            var h = ctx.drawingBufferHeight;
-            
-            return [ w / ctx.pixelRatio, h / ctx.pixelRatio ];
+            return [ ctx.drawingBufferWidth, ctx.drawingBufferHeight ];
             
         }
         
@@ -17,8 +12,7 @@ module.exports = {
     
     vert: `
         precision mediump float;
-        #define DPR ${ DPR }.
-        
+
         attribute vec2 position;
         varying vec2 uv;
         
@@ -31,12 +25,12 @@ module.exports = {
             uv = position;
             
             vec2 p = position;
-            p *= size * DPR;
-            p += offset * DPR;
+            p *= size;
+            p += offset;
             p.y = resolution.y - p.y;
             p -= resolution / 2.;
             p /= resolution;
-            p *= DPR;
+            p *= 2.;
             
             gl_Position = vec4( p, 0., 1. );
             

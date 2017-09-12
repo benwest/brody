@@ -26,10 +26,10 @@ module.exports = regl => regl({
             var size = ctx.clipSize;
             
             return {
-                x: offset[ 0 ] * ctx.pixelRatio,
-                y: offset[ 1 ] * ctx.pixelRatio,
-                width: size[ 0 ] * ctx.pixelRatio,
-                height: size[ 1 ] * ctx.pixelRatio
+                x: offset[ 0 ],
+                y: offset[ 1 ],
+                width: size[ 0 ],
+                height: size[ 1 ]
             }
             
         }

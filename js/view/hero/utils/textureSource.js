@@ -22,11 +22,7 @@ var loadTexture = src => loadImage( src.url ).then( img => {
 
 var source = ( regl, file ) => {
 
-    var tex = regl.texture({
-        mag: 'linear',
-        min: 'linear',
-        data: [[ 0, 0, 0, 0 ]]
-    });
+    var tex = regl.texture( [ [ 0, 0, 0, 0 ] ] );
     
     var srcs = file.srcs.filter( src => src.w > 1 );
     
@@ -51,7 +47,7 @@ var source = ( regl, file ) => {
         
         if ( idx !== curr ) {
             
-            tex({ data: imgs[ idx ] });
+            tex({ data: imgs[ idx ], min: 'linear', mag: 'linear' });
             
             curr = idx;
             

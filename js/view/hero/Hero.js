@@ -8,8 +8,7 @@ var visible = require('../utils/visible');
 var lazyMouse = require('./lazyMouse');
 var createTools = require('./tools');
 var textureSource = require('./utils/textureSource');
-
-var DPR = window.devicePixelRatio || 1;
+var viewport = require('../utils/viewport')
 
 var styles = j2c.attach({
     '.canvas': {
@@ -48,7 +47,7 @@ var Shader = {
         
         if ( !GL_SUPPORTED ) return;
         
-        state.context = regl( dom );
+        state.context = regl({ canvas: dom, pixelRatio: 1 });
             
         state.rect = lazyRect.subscribe( dom );
         
@@ -57,17 +56,17 @@ var Shader = {
         var textures = textureSource( state.context );
         var tools = createTools( state.context );
         
-        state.frame = state.context.frame( ( ...args ) => {
+        state.frame = state.context.frame( ctx => {
             
             var rect = lazyRect.get( state.rect );
             
             if ( visible( rect ) ) {
                 
-                state.lazyMouse.push( state.mouse );
+                state.lazyMouse.push( [ state.mouse[ 0 ] - rect.left, state.mouse[ 1 ] - rect.top ] );
                 
-                if ( rect.width * DPR !== dom.width || rect.height * DPR !== dom.height ) {
-                    dom.width = rect.width * DPR;
-                    dom.height = rect.height * DPR;
+                if ( rect.width !== dom.width || rect.height !== dom.height ) {
+                    dom.width = rect.width;
+                    dom.height = rect.height;
                 }
                 
                 tools.scene({
@@ -114,9 +113,17 @@ module.exports = draw => {
         
         view: ({ attrs }) => {
             
+            var inner = <Shader draw={ draw } { ...attrs }/>;
+            
+            if ( attrs.url ) {
+                
+                inner = <a href={ attrs.url } oncreate={ m.route.link }>{ inner }</a>;
+                
+            }
+            
             return (
                 <Container masthead={ attrs.masthead }>
-                    <Shader draw={ draw } { ...attrs }/>
+                    { inner }
                 </Container>
             )
             

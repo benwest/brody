@@ -27,7 +27,7 @@ var types = {
     typeTester: require('./TypeTester'),
     featured: require('./Featured'),
     parallaxHero: Hero( require('../hero/ParallaxHero') ),
-    infinityHero: Hero( require('../hero/InfinityHero') )
+    trailHero: Hero( require('../hero/TrailHero') )
 }
 
 var debug = ( type, attrs ) => {

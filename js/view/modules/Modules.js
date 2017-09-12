@@ -13,7 +13,7 @@ var group = modules => modules.reduce( ( backgrounds, module ) => {
         
     } else if ( backgrounds.length === 0 ) {
         
-        backgrounds.push( { modules: [], color: '#000' } );
+        backgrounds.push( { modules: [], attrs: { color: '#000' } } );
         
     }
     

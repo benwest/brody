@@ -19,7 +19,11 @@ var styles = j2c.attach({
         height: '100%',
         background: 'black',
         contain: 'strict',
-        '&.masthead': mediaQueries( [ baseline, peep ], getHeight )
+        cursor: 'pointer',
+        '&.masthead': {
+            cursor: 'default',
+            '': mediaQueries( [ baseline, peep ], getHeight )
+        }
     }
     
 })

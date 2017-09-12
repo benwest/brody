@@ -98,7 +98,7 @@ var clientView = ({ attrs, state }) => {
     return [
         j2c.view(),
         attrs.modules && <Modules key={ attrs.path } modules={ attrs.modules } meta={ attrs.meta }/>,
-        !attrs.modules && <Preloader/>,
+        //!attrs.modules && <Preloader/>,
         attrs.meta && <Menu isOpen={ state.menuOpen } link={ state.link }/>,
         attrs.meta && <MenuButton onclick={ toggleMenu } />
     ]
