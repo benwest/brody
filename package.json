@@ -36,7 +36,7 @@
   },
   "scripts": {
     "dev": "webpack --env.dev true --watch & node js/server",
-    "start": "npm run build && pm2 startOrRestart pm2.json",
+    "start": "npm run build && node_modules/.bin/pm2 startOrRestart pm2.json",
     "build": "webpack --env.production true"
   }
 }
