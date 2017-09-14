@@ -25,23 +25,21 @@ var group = modules => modules.reduce( ( backgrounds, module ) => {
 
 module.exports = {
     
-    // oninit: ({ attrs: { modules, meta }, state }) => {
-        
-    //     state.backgrounds = group( modules );
-        
-    //     state.style = {
-    //         color: meta.textColor
-    //     };
-        
-    // },
+    scrollAnchors: {},
     
-    view: ({ attrs: { modules, meta } }) => {
+    onremove: () => {
+        
+        // console.log('bye');
+        
+    },
+    
+    view: ({ attrs: { modules, meta }, state: { scrollAnchors } }) => {
         
         var backgrounds = group( modules ).map( ( background, i ) => {
             
             var modules = background.modules.map( ( module, i ) => {
                 
-                return <Module { ...module }/>;
+                return <Module scrollAnchors={ scrollAnchors } { ...module }/>;
                 
             })
             
@@ -54,10 +52,10 @@ module.exports = {
         });
         
         var style = {
-            color: meta.textColor
+            color: meta.textColor || 'white'
         };
         
-        return <div style={ style }>{ backgrounds }</div>;
+        return <div key={ meta.id } style={ style }>{ backgrounds }</div>;
         
     }
     

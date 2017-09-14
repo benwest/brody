@@ -10,11 +10,15 @@ var styles = j2c.attach({
     
     '.image': {
         
+        ' > *': {
+            transition: 'filter 2s, transform 2s',
+            filter: 'grayscale(100%) brightness(50%)',
+            pointerEvents: 'none'
+        },
+        
         display: 'block',
         position: 'relative',
         float: 'left',
-        transition: 'filter 2s, transform 2s',
-        filter: 'grayscale(100%) brightness(50%)',
         width: '100%',
         paddingBottom: '100%',
         [ breakpoints.tabletLandscape ]: {
@@ -28,7 +32,7 @@ var styles = j2c.attach({
         
     },
     
-    '.active': {
+    '.active > *': {
         transition: 'filter .25s, transform .25s',
         filter: 'none',
         ' ': breakpoints.mediaQueries( baseline, x => ({ transform: `translate(${x}px, ${x}px)` }) )

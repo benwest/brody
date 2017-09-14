@@ -3,10 +3,11 @@ var j2c = require('mithril-j2c');
 var classnames = require('classnames');
 var { baseline } = require('../utils/metrics');
 var { mediaQueries } = require('../utils/breakpoints');
+var range = require('lodash/range');
 
 var styles = j2c.attach({
     
-    '.root': mediaQueries( baseline, x => ({ padding: `0 0 ${ x * 5 }px ${x}px` }) ),
+    '.root': mediaQueries( baseline, x => ({ padding: `0 0 ${ x * 5 }px ${ x }px` }) ),
     // {
     //     [ breakpoints.tablet ]: {
     //         padding: '0 0 0 35px'
@@ -17,7 +18,9 @@ var styles = j2c.attach({
         lineHeight: '35px',
         transition: 'color 2s, transform 2s',
         display: 'block',
-        color: '#9C9B9B'
+        color: '#9C9B9B',
+        marginLeft: '-500px',
+        paddingLeft: '500px'
     },
     
     '.active': {
@@ -29,8 +32,9 @@ var styles = j2c.attach({
     '.list': {
         listStyle: 'none',
         margin: 0,
+        // padding: 0
         // padding: '0 0 0 35px',
-        // ' ': mediaQueries( baseline, x => ({ padding: `0 0 0 ${x}px` }) )
+        ' ': mediaQueries( baseline, x => ({ padding: `0 0 0 ${x}px` }) )
     }
     
 })

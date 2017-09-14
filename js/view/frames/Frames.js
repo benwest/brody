@@ -130,16 +130,37 @@ var titles = ( list, offset = 0 ) => {
     
 }
 
-var scrollHeight = list => {
+var scrollHeight = ( list, anchors, total = 0 ) => {
     
-    var ownHeight = list.attrs.h * ( list.attrs.children.length - 1 );
+    list.attrs.children.forEach( ( item, i ) => {
+        
+        if ( item.attrs.anchor ) anchors[ item.attrs.anchor ] = total;
+        
+        if ( i < list.attrs.children.length - 1 ) total += list.attrs.h;
+        
+        if ( item.type === 'list' ) {
+            
+            total = scrollHeight( item, anchors, total );
+            
+        }
+        
+    })
     
-    var childHeight = list.attrs.children
-        .filter( item => item.type === 'list' )
-        .reduce( ( total, item ) => total + scrollHeight( item ), 0 );
+    return total;
     
-    return ownHeight + childHeight;
+    // var ownHeight = list.attrs.h * ( list.attrs.children.length - 1 );
     
+    // return list.attrs.children
+    //     .filter( item => item.type === 'list' )
+    //     .reduce( ( total, item ) => {
+            
+    //         if ( item.attrs.anchor ) anchors[ item.attrs.anchor ] = total;
+            
+    //         return total + scrollHeight( item, anchors );
+            
+    //     }, ownHeight );
+    
+
 }
 
 module.exports = {
@@ -150,7 +171,7 @@ module.exports = {
         
     },
     
-    view: ({ state: { root } }) => {
+    view: ({ attrs: { scrollAnchors }, state: { root } }) => {
         
         layout( root, viewport.w, viewport.h, margin() );
         
@@ -168,7 +189,7 @@ module.exports = {
             <Fixer
                 width={ viewport.w }
                 height={ viewport.h }
-                scrollHeight={ scrollHeight( root ) }
+                scrollHeight={ scrollHeight( root, scrollAnchors ) }
                 getContent={ getContent }
             />
         );

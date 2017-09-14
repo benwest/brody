@@ -13,6 +13,7 @@ module.exports = {
                     type: 'list',
                     attrs: {
                         title: discipline.name,
+                        anchor: discipline.name,
                         children: discipline.projects.map( project => ({
                             type: 'item',
                             attrs: {
@@ -27,9 +28,9 @@ module.exports = {
         
     },
     
-    view: ({ state: { structure }}) => {
+    view: ({ attrs: { scrollAnchors }, state: { structure }}) => {
         
-        return <Frames structure={ structure }/>
+        return <Frames scrollAnchors={ scrollAnchors } structure={ structure }/>
         
     }
     

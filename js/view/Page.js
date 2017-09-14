@@ -49,34 +49,12 @@ var Page = {
     oninit: vnode => {
         
         vnode.state.link = vnode.state.link( vnode );
-        vnode.state.getData = vnode.state.getData( vnode );
-        
-        // return vnode.state.getData( vnode.attrs.route );
-        
+
     },
     
-    onupdate: vnode => {
+    onupdate: ({ attrs: { meta }}) => {
         
-        // vnode.state.getData( vnode.attrs.route );
-        
-    },
-    
-    getData: vnode => url => {
-        
-        if ( url === vnode.state.route ) return;
-        
-        vnode.state.route = url;
-        vnode.state.modules = null;
-        redraw( 'route start' )
-        
-        return api( url )
-            .then( r => {
-                
-                vnode.state.meta = r.meta;
-                // vnode.state.modules = r.modules;
-                redraw( 'route end' );
-                
-            });
+        document.title = meta.title;
         
     },
     
@@ -100,7 +78,7 @@ var clientView = ({ attrs, state }) => {
         attrs.modules && <Modules key={ attrs.path } modules={ attrs.modules } meta={ attrs.meta }/>,
         //!attrs.modules && <Preloader/>,
         attrs.meta && <Menu isOpen={ state.menuOpen } link={ state.link }/>,
-        attrs.meta && <MenuButton onclick={ toggleMenu } />
+        attrs.meta && <MenuButton onclick={ toggleMenu }/>
     ]
     
 };

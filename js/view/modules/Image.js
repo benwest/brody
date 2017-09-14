@@ -92,9 +92,9 @@ var BgSrc = Object.assign({
 
 var BgContainer = {
     
-    view: ({ children }) => {
+    view: ({ children, attrs: { style, key } }) => {
         
-        return <div class={ styles.bgContainer }>{ children }</div>
+        return <div class={ styles.bgContainer } style={ style }>{ children }</div>
         
     }
     
@@ -102,11 +102,13 @@ var BgContainer = {
 
 var ImgContainer = {
     
-    view: ({ children, attrs: { ratio } }) => {
+    view: ({ children, attrs: { file, style } }) => {
         
-        var style = {
+        var ratio = file.h / file.w;
+        
+        var style = Object.assign({
             paddingBottom: ratio * 100 + '%'
-        }
+        }, style || {} )
         
         return (
             <div class={ styles.container } style={ style }>
@@ -123,12 +125,6 @@ var Image = ( Src, Container ) => ({
     srcIndex: 0,
     
     rect: undefined,
-    
-    oninit: ({ attrs: { file }, state }) => {
-        
-        state.ratio = file.h / file.w;
-        
-    },
     
     oncreate: ({ state, dom }) => {
         
@@ -154,13 +150,13 @@ var Image = ( Src, Container ) => ({
     
     view: ({
         attrs,
-        state: { srcIndex, ratio }
+        state: { srcIndex }
     }) => {
         
         var child = <Src file={ attrs.file } index={ srcIndex } key={ srcIndex } { ...attrs }/>;
         
         return (
-            <Container ratio={ ratio }>
+            <Container { ...attrs }>
                 { [ child, '' ] }
             </Container>
         )

@@ -28,7 +28,7 @@ Object.keys( routes ).forEach( url => {
     
     server.get( url, ( req, res, next ) => {
         
-        if ( true /* skip rendering */ ) {
+        if ( false /* skip rendering */ ) {
             
             toHTML( m( Page, { meta: null, modules: null } ) ).then( html => res.send( html ) );
             

@@ -1,6 +1,5 @@
 var m = require('mithril');
 var j2c = require('mithril-j2c');
-var Hero = require('../hero/Hero');
 
 var styles = j2c.attach({
     '.debug': {
@@ -19,15 +18,22 @@ var styles = j2c.attach({
 var DEBUG = false;
 
 var types = {
+    masthead: require('./Masthead'),
     introduction: require('./Introduction'),
     text: require('./Text'),
     visuals: require('./Visuals'),
     stack: require('./Stack'),
     slider: require('./Slider'),
     typeTester: require('./TypeTester'),
+    siteTitle: require('./SiteTitle'),
+    siteIntro: require('./SiteIntro'),
     featured: require('./Featured'),
-    parallaxHero: Hero( require('../hero/ParallaxHero') ),
-    trailHero: Hero( require('../hero/TrailHero') )
+    parallaxHero: require('../hero/ParallaxHero'),
+    trailHero: require('../hero/TrailHero'),
+    wipeHero: require('../hero/WipeHero'),
+    zoomHero: require('../hero/ZoomHero'),
+    stripesHero: require('../hero/StripesHero'),
+    scrubberHero: require('../hero/ScrubberHero')
 }
 
 var debug = ( type, attrs ) => {
@@ -58,7 +64,7 @@ var debug = ( type, attrs ) => {
 var Module = {
     
     view: ({
-        attrs: { type, attrs }
+        attrs: { type, attrs, scrollAnchors }
     }) => {
         
         if ( !( type in types ) ) {
@@ -78,7 +84,7 @@ var Module = {
             
         } else {
             
-            return m( types[ type ], attrs );
+            return m( types[ type ], Object.assign( { scrollAnchors }, attrs ) );
             
         }
         

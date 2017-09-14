@@ -9,8 +9,7 @@ var styles = j2c.attach({
     '.item': {
         position: 'absolute',
         overflow: 'hidden',
-        contain: 'strict',
-        // border: '1px solid green'
+        contain: 'strict'
     },
     '.listItem': {
         position: 'absolute',
@@ -18,19 +17,17 @@ var styles = j2c.attach({
         left: 0,
         width: '100%',
         height: '100%',
-        contain: 'strict',
-        // border: '1px solid yellow'
+        contain: 'strict'
     },
     '.title': {
         position: 'absolute',
         width: '100%',
-        // border: '1px solid red',
         top: 0,
         left: 0,
         zIndex: 10,
         contain: 'strict',
         '': mediaQueries( margin, ([ t, r, l, b ]) => ({
-            paddingLeft: l + 'px',
+            paddingLeft: Math.max( l, 10 ) + 'px',
             height: t + 'px',
             lineHeight: t + 'px'
         })),
@@ -68,10 +65,10 @@ var List = {
             
             var y = i * h - scrollTop;
             
-            if ( y > h || y + h < 0 ) return;
+            if ( y >= h || y + h < 0 ) return;
             
             var style = {
-                transform: `translateY( ${ y }px )`,
+                transform: `translateY( ${ Math.floor( y ) }px )`,
                 backgroundColor: child.attrs.color
             }
             
@@ -85,7 +82,7 @@ var List = {
                 // lineHeight: child.attrs.y + 'px',
                 // height: child.attrs.y + 'px',
                 backgroundColor: child.attrs.color,
-                transform: `translateY( ${ child.attrs.title.y }px )`
+                transform: `translateY( ${ Math.floor( child.attrs.title.y ) }px )`
             }
             
             return [
