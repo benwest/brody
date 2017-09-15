@@ -18,6 +18,7 @@ var styles = j2c.attach({
         ' a': {
             borderBottom: '1px solid ' + grey,
             transition: 'border-bottom-color .2s',
+            cursor: 'pointer',
             '&:hover': {
                 borderBottom: '1px solid white'
             }

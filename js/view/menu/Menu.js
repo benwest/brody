@@ -2,11 +2,14 @@ var m = require('mithril');
 var j2c = require('mithril-j2c');
 var classnames = require('classnames');
 var breakpoints = require('../utils/breakpoints');
-var scrollTo = require('./scrollTo');
+var { baseline } = require('../utils/metrics');
+// var scrollTo = require('./scrollTo');
 var api = require('../../api');
 
+var MenuButton = require('./MenuButton');
 var TextMenu = require('./TextMenu');
 var ImageMenu = require('./ImageMenu');
+var Search = require('./Search');
 
 var styles = j2c.attach({
     
@@ -70,65 +73,101 @@ var styles = j2c.attach({
             left: '25%'
         },
         transform: 'translateX(100%)'
+    },
+    
+    '.searchButton': {
+        position: 'absolute',
+        top: 0,
+        backgroundImage: 'url(/assets/img/search.svg)',
+        backgroundSize: '100% 100%',
+        cursor: 'pointer',
+        opacity: .5,
+        transition: 'opacity .25s',
+        right: 0,
+        [ breakpoints.tablet ]: {
+            right: 0
+        },
+        '&:hover': {
+            opacity: 1
+        },
+        '': breakpoints.mediaQueries( baseline, x => ({
+            width: x + 'px',
+            height: x + 'px'
+        }))
     }
     
 })
 
 module.exports = {
     
-    side: -1,
+    root: null,
     
     selected: -1,
     
+    open: false,
+    
+    searchOpen: false,
+    
     oninit: vnode => {
-        
-        vnode.state.select = vnode.state.select( vnode );
-        
-        vnode.state.root = null;
         
         return api('/menu')
             .then( menu => vnode.state.root = menu )
         
     },
-    
-    select: vnode => side => id => e => {
-        
-        vnode.state.selected = id;
-        
-        var otherSide = side === 0 ? 1 : 0;
-        
-        // scrollTo( vnode.dom.childNodes[ otherSide ], id );
-        
-    },
-    
+
     view: ({
-        state,
-        attrs: { isOpen, link }
+        state
     }) => {
-        
-        var setSide = side => e => state.side = side;
         
         var menuClasses = classnames({
             [ styles.menu ]: true,
-            [ styles.open ]: isOpen
+            [ styles.open ]: state.open
         })
         
-        var attrs = {
+        var select = id => state.selected = id;
+        
+        var openSearch = () => state.searchOpen = true;
+        var closeSearch = () => state.searchOpen = false;
+        var open = () => state.open = true;
+        var close = () => {
+            closeSearch();
+            state.open = false;
+        }
+        var toggle = () => state.open ? close() : open();
+        
+        var go = url => {
+            close();
+            scrollTo( 0, 0 );
+            m.route.set( url );
+        }
+        
+        var onclick = url => e => {
+            if (e.ctrlKey || e.metaKey || e.shiftKey || e.which === 2) return;
+            e.redraw = false;
+            e.preventDefault();
+            go( url );
+        }
+        
+        var menuAttrs = {
             root: state.root,
             selected: state.selected,
-            link
+            select,
+            onclick
         };
         
-        return (
+        return [
             <div class={ menuClasses }>
-                <div class={ styles.left } onmouseenter={ setSide( 0 ) }>
-                    <TextMenu select={ state.select( 0 ) } { ...attrs }/>
+                <div class={ styles.left }>
+                    <TextMenu { ...menuAttrs }/>
+                    <div class={ styles.searchButton } onclick={ openSearch }/>
                 </div>
-                <div class={ styles.right } onmouseenter={ setSide( 1 ) }>
-                    <ImageMenu select={ state.select( 1 ) } { ...attrs }/>
+                <div class={ styles.right }>
+                    <ImageMenu { ...menuAttrs }/>
                 </div>
-            </div>
-        );
+                { state.searchOpen && <Search root={ state.root } close={ closeSearch } go={ go }/> }
+            </div>,
+            <MenuButton onclick={ toggle }/>
+        ];
         
     }
     

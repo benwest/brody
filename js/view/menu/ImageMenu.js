@@ -50,13 +50,7 @@ var traverse = ( item, fn ) => {
 
 module.exports = {
     
-    onupdate: ({ dom, attrs: { selected } }) => {
-        
-        // scrollTo( dom, selected );
-        
-    },
-    
-    view: ({ attrs: { root, select, selected, link } }) => {
+    view: ({ attrs: { root, select, selected, onclick } }) => {
         
         if ( !root ) return;
         
@@ -86,9 +80,9 @@ module.exports = {
                     id={ 'i' + id }
                     href={ url }
                     oncreate={ m.route.link }
-                    onmouseenter={ select( id ) }
-                    onmouseleave={ select( -1 ) }
-                    oncreate={ link }
+                    onmouseenter={ () => select( id ) }
+                    onmouseleave={ () => select( -1 ) }
+                    onclick={ onclick( url ) }
                     style={ style }
                 >
                     <BackgroundImage file={ image }/>

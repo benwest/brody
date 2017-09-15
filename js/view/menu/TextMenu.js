@@ -42,25 +42,24 @@ var styles = j2c.attach({
 var Link = {
     
     view: ({
-        attrs: { item: { id, url, title, children }, selected, select, link }
+        attrs: { item: { id, url, title, children }, selected, select, onclick }
     }) => {
         
         var classes = classnames({
             [ styles.link ]: true,
-            [ styles.active ]: selected === id// || children.find( child => selected === child.id )
+            [ styles.active ]: selected === id
         });
         
-        var onmouseenter = url && select( id );
-        var onmouseleave = url && select( -1 );
+        var onmouseenter = () => url && select( id );
+        var onmouseleave = () => url && select( -1 );
         
         return (
             <a
-                id={ 'i' + id }
                 class={ classes }
                 href={ url }
                 onmouseenter={ onmouseenter }
                 onmouseleave={ onmouseleave }
-                oncreate={ url && link }
+                onclick={ url && onclick( url ) }
             >
                 { m.trust( title ) }
             </a>
@@ -73,12 +72,12 @@ var Link = {
 var TextMenuItem = {
     
     view: ({
-        attrs: { item, selected, select, link }
+        attrs: { item, selected, select, onclick }
     }) => {
         
         var children = item.children.map( child => {
             
-            var attrs = { selected, select, item: child, link }; 
+            var attrs = { selected, select, item: child, onclick }; 
             
             return (
                 <li>
@@ -89,7 +88,7 @@ var TextMenuItem = {
         })
         
         return [
-            <Link key={ item.id } item={ item } selected={ selected } select={ select } link={ link }/>,
+            <Link key={ item.id } item={ item } selected={ selected } select={ select } onclick={ onclick }/>,
             children.length ?
                 <ul key={ item.id + 'l' } class={ styles.list }>
                     { children }
@@ -105,14 +104,14 @@ var TextMenuItem = {
 module.exports = {
     
     view: ({
-        attrs: { selected, select, root, link }
+        attrs: { root, selected, select, onclick }
     }) => {
         
         if ( !root ) return;
         
         return (
             <div class={ styles.root }>
-                <TextMenuItem selected={ selected } select={ select } item={ root } link={ link } />
+                <TextMenuItem item={ root } selected={ selected } select={ select } onclick={ onclick } />
             </div>
         )
         

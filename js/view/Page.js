@@ -22,6 +22,7 @@ j2c.attach('@global', {
         fontFamily: 'Benton Sans, sans-serif',
         color: 'white',
         '-webkit-font-smoothing': 'antialiased',
+        '-webkit-text-size-adjust': '100%',
         overflowX: 'hidden'
     },
     
@@ -46,39 +47,21 @@ var Page = {
     
     route: null,
     
-    oninit: vnode => {
-        
-        vnode.state.link = vnode.state.link( vnode );
-
-    },
-    
     onupdate: ({ attrs: { meta }}) => {
         
         document.title = meta.title;
         
-    },
-    
-    link: vnode => ({ dom }) => dom.addEventListener( 'click', e => {
-        if (e.ctrlKey || e.metaKey || e.shiftKey || e.which === 2) return;
-        e.redraw = false;
-        e.preventDefault();
-        vnode.state.menuOpen = false;
-        scrollTo( 0, 0 );
-        m.route.set( dom.getAttribute('href') );
-    }),
+    }
     
 }
 
 var clientView = ({ attrs, state }) => {
     
-    var toggleMenu = () => state.menuOpen = !state.menuOpen;
-    
     return [
         j2c.view(),
         attrs.modules && <Modules key={ attrs.path } modules={ attrs.modules } meta={ attrs.meta }/>,
         //!attrs.modules && <Preloader/>,
-        attrs.meta && <Menu isOpen={ state.menuOpen } link={ state.link }/>,
-        attrs.meta && <MenuButton onclick={ toggleMenu }/>
+        attrs.meta && <Menu/>,
     ]
     
 };

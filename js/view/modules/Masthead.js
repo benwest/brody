@@ -19,6 +19,8 @@ var styles = j2c.attach({
         background: 'black',
         contain: 'strict',
         cursor: 'default',
+        overflow: 'hidden',
+        position: 'relative',
         '': mediaQueries( [ baseline, peep ], getHeight )
     }
     
